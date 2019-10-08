@@ -8,6 +8,9 @@
 
 #include <SFML/System.hpp>
 
+class PhysicsComponent;
+class GraphicsComponent;
+
 class Entity
 {
 private:
@@ -35,11 +38,11 @@ public:
 
 	void SetPhysicsComponent(std::unique_ptr<PhysicsComponent> new_physics)
 	{
-		physics = new_physics;
+		physics = std::move(new_physics);
 	}
 	void SetGraphicsComponent(std::unique_ptr<GraphicsComponent> new_graphics)
 	{
-		graphics = new_graphics;
+		graphics = std::move(new_graphics);
 	};
 };
 

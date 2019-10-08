@@ -2,6 +2,9 @@
 
 #include "Scene.hpp"
 
+class Entity;
+class Scene;
+
 class GraphicsComponent
 {
 private:

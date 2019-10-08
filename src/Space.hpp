@@ -9,6 +9,7 @@ class Space
 private:
 	Scene scene;
 	int refreshPeriod = 25;
+	int player_id;
 public:
 	int GetRefreshPeriod()
 	{
