@@ -14,6 +14,7 @@ int main(int argc, char** argv)
 		args.push_back(std::string(argv[i]));
 	}
 
+	std::cerr << "Launching game..." << std::endl;
 	Game game(args);
 
 	while (game.state == GAME_STATE_RUNNING) {
