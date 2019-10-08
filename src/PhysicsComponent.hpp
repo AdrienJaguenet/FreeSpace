@@ -7,8 +7,8 @@ class Entity;
 
 class PhysicsComponent
 {
-  private:
-  public:
+private:
+public:
 	virtual void Update(int dt, Scene& scene, Entity& entity) = 0;
 };
 

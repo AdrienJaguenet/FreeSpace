@@ -4,8 +4,8 @@
 
 class GraphicsComponent
 {
-  private:
-  public:
+private:
+public:
 	virtual void Render(Entity& e, Scene& sc) = 0;
 };
 
