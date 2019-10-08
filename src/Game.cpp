@@ -7,8 +7,6 @@
 #include "Util.hpp"
 
 Game::Game(std::vector<std::string>& args) :
-	offset_x(10),
-	offset_y(10),
 	space_input_manager(space),
 	input_manager(&space_input_manager),
 	window(sf::VideoMode(600, 400), "FreeSpace")
@@ -17,7 +15,6 @@ Game::Game(std::vector<std::string>& args) :
 
 	space.Load();
 
-	this->latest_tick = clock.getElapsedTime().asMilliseconds();
 	this->state = GAME_STATE_RUNNING;
 }
 
@@ -50,6 +47,6 @@ void Game::Update()
 
 void Game::Render()
 {
-	space.Render(offset_x, offset_y);
+	space.Render();
 }
 

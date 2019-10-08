@@ -1,13 +1,23 @@
 #include "Space.hpp"
 
+#include <SFML/Graphics.hpp>
+
+Space::Space(sf::RenderWindow& window) :
+	scene(window),
+	window(window)
+{
+
+}
+
 void Space::Update()
 {
 
 }
 
-void Space::Render(int offx, int offy)
+void Space::Render()
 {
-
+	window.clear(sf::Color::Black);
+	scene.Render();
 }
 
 void Space::Load()

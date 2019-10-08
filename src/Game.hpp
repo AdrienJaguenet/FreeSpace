@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SFML/Window.hpp>
+#include <SFML/Graphics.hpp>
 #include <vector>
 #include <string>
 
@@ -19,16 +19,15 @@ public:
 	void ProcessEvent(sf::Event &e);
 	void Quit();
 	void Render();
-	sf::Window& getWindow()
+	sf::RenderWindow& getWindow()
 	{
 		return window;
 	}
 
 private:
-	sf::Window window;
+	sf::RenderWindow window;
 	sf::Clock clock;
-	unsigned int latest_tick, delta_tick;
-	int offset_x, offset_y;
+	unsigned int delta_tick;
 	Space space;
 	InputManager* input_manager;
 	SpaceInputManager space_input_manager;

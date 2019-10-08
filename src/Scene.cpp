@@ -2,6 +2,12 @@
 
 #include "LinearPhysicsComponent.hpp"
 
+Scene::Scene(sf::RenderWindow& window) :
+	window(window)
+{
+
+}
+
 int Scene::SpawnPlayer()
 {
 	ents.push_back(Entity());
@@ -11,3 +17,9 @@ int Scene::SpawnPlayer()
 	return ent_id;
 }
 
+void Scene::Render()
+{
+	for (auto & e : ents) {
+		e.Render(*this);
+	}
+}
