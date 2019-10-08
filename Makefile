@@ -9,7 +9,7 @@ LDOPTIONS=
 LDLIBS=-lsfml-graphics -lsfml-window -lsfml-system
 
 TARGET=FreeSpace
-SRC=src/game.cpp src/main.cpp
+SRC=src/Game.cpp src/Main.cpp
 OBJ=$(SRC:.cpp=.o)
 
 all: $(TARGET)

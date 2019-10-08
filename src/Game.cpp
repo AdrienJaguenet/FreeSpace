@@ -1,10 +1,10 @@
-#include "game.hpp"
-#include "util.hpp"
-
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
 #include <queue>
+
+#include "Game.hpp"
+#include "Util.hpp"
 
 Game::Game(std::vector<std::string>& args) :
 	offset_x(10),

@@ -1,14 +1,13 @@
 #pragma once
 
-#include "GameState.hpp"
-#include "InputManager.hpp"
-
-#include "Space.hpp"
-#include "SpaceInputManager.hpp"
-
 #include <SFML/Window.hpp>
 #include <vector>
 #include <string>
+
+#include "GameState.hpp"
+#include "InputManager.hpp"
+#include "Space.hpp"
+#include "SpaceInputManager.hpp"
 
 class Game
 {

@@ -1,9 +1,10 @@
 #include <iostream>
 #include <vector>
 #include <string>
+
 #include <SFML/Window.hpp>
 
-#include "game.hpp"
+#include "Game.hpp"
 
 int main(int argc, char** argv)
 {

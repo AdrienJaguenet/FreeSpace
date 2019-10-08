@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/Window.hpp>
+
 #include "GameState.hpp"
 
 class InputManager

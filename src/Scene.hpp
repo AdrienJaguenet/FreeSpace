@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Entity.hpp"
-
 #include <vector>
+
+#include "Entity.hpp"
 
 class Scene
 {
