@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <SDL2/SDL_ttf.h>
+#include <SFML/Window.hpp>
 
 #include "game.hpp"
 
@@ -13,19 +13,15 @@ int main(int argc, char** argv)
 		args.push_back(std::string(argv[i]));
 	}
 
-	TTF_Init();
-
 	Game game(args);
 
 	while (game.state == GAME_STATE_RUNNING) {
-		SDL_Event e;
-		while(SDL_PollEvent(&e))
+		sf::Event e;
+		while(game.getWindow().pollEvent(e))
 			game.ProcessEvent(e);
 		game.Update();
 		game.Render();
 	}
-
-	TTF_Quit();
 
 	return 0;
 }

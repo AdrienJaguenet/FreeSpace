@@ -10,52 +10,24 @@ Game::Game(std::vector<std::string>& args) :
 	offset_x(10),
 	offset_y(10),
 	space_input_manager(space),
-	input_manager(&space_input_manager)
+	input_manager(&space_input_manager),
+	window(sf::VideoMode(600, 400), "FreeSpace")
 {
-	int grid_width(20), grid_height(20);
-	this->window = SDL_CreateWindow("FreeSnake", SDL_WINDOWPOS_UNDEFINED,
-	                                SDL_WINDOWPOS_UNDEFINED,
-	                                grid_width * 32 + offset_x * 2, grid_height * 32 + offset_y * 2 + 20, SDL_WINDOW_OPENGL);
-
-	if (!this->window) {
-		std::cerr << "Failed to create SDL window: " << SDL_GetError() << std::endl;
-		this->state = GAME_STATE_QUIT;
-	}
-
-	this->renderer = SDL_CreateRenderer(this->window, -1, SDL_RENDERER_ACCELERATED);
-	if (!this->window) {
-		std::cerr << "Failed to create SDL renderer." << SDL_GetError() << std::endl;
-		this->state = GAME_STATE_QUIT;
-	}
-
 	srand(time(NULL));
 
-	space.SetRenderer(renderer);
 	space.Load();
 
-	this->latest_tick = SDL_GetTicks();
+	this->latest_tick = clock.getElapsedTime().asMilliseconds();
 	this->state = GAME_STATE_RUNNING;
 }
 
-Game::~Game()
-{
-	if (this->window)
-		SDL_HideWindow(this->window);
-
-	if (this->renderer)
-		SDL_DestroyRenderer(this->renderer);
-
-	if (this->window)
-		SDL_DestroyWindow(this->window);
-}
-
-void Game::ProcessEvent(SDL_Event &e)
+void Game::ProcessEvent(sf::Event &e)
 {
 	switch(e.type) {
-	case SDL_QUIT:
+	  case sf::Event::Closed:
 		state = input_manager->OnQuit();
 		break;
-	case SDL_KEYDOWN:
+	  case sf::Event::KeyPressed:
 		state = input_manager->OnKeyDown(e.key);
 		break;
 	default:
@@ -66,13 +38,11 @@ void Game::ProcessEvent(SDL_Event &e)
 void Game::Update()
 {
 	static int turn_count(0);
-	unsigned int new_time = SDL_GetTicks();
-	this->delta_tick = new_time - this->latest_tick;
+	this->delta_tick = clock.restart().asMilliseconds();
 	if (delta_tick < space.GetRefreshPeriod()) {
-		SDL_Delay(space.GetRefreshPeriod() - delta_tick);
+		sf::sleep(sf::milliseconds(space.GetRefreshPeriod() - delta_tick));
 		return;
 	} else {
-		this->latest_tick = new_time;
 		++turn_count;
 		space.Update();
 	}

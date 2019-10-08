@@ -6,7 +6,7 @@ INCLUDEDIRS=
 
 LD=g++
 LDOPTIONS=
-LDLIBS=-lSDL2 -lSDL2_ttf
+LDLIBS=-lsfml-graphics -lsfml-window -lsfml-system
 
 TARGET=FreeSpace
 SRC=src/game.cpp src/main.cpp
