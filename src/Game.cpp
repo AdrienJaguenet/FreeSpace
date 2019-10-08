@@ -49,5 +49,6 @@ void Game::Update()
 void Game::Render()
 {
 	space.Render();
+	window.display();
 }
 
