@@ -14,9 +14,6 @@ class GraphicsComponent;
 class Entity
 {
 private:
-	sf::Vector2<float> pos;
-	sf::Vector2<float> vel;
-	sf::Vector2<float> acc;
 	float raw; /* in radians */
 	std::unique_ptr<PhysicsComponent> physics;
 	std::unique_ptr<GraphicsComponent> graphics;
@@ -33,8 +30,14 @@ public:
 		name = new_name;
 	}
 
-	PhysicsComponent& GetPhysicsComponent();
-	GraphicsComponent& GetGraphicsComponent();
+	PhysicsComponent& GetPhysicsComponent()
+	{
+		return *physics;
+	}
+	GraphicsComponent& GetGraphicsComponent()
+	{
+		return *graphics;
+	}
 
 	void SetPhysicsComponent(std::unique_ptr<PhysicsComponent> new_physics)
 	{
