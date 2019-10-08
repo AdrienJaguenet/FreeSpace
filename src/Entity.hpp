@@ -17,6 +17,7 @@ private:
 	struct {
 		float x, y;
 	} acc;
+	float raw; /* in radians */
 	std::unique_ptr<PhysicsComponent> physics;
 	std::unique_ptr<GraphicsComponent> graphics;
 public:
