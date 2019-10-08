@@ -20,7 +20,10 @@ public:
 	void ProcessEvent(sf::Event &e);
 	void Quit();
 	void Render();
-	sf::Window& getWindow() { return window; }
+	sf::Window& getWindow()
+	{
+		return window;
+	}
 
 private:
 	sf::Window window;

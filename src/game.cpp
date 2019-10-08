@@ -24,10 +24,10 @@ Game::Game(std::vector<std::string>& args) :
 void Game::ProcessEvent(sf::Event &e)
 {
 	switch(e.type) {
-	  case sf::Event::Closed:
+	case sf::Event::Closed:
 		state = input_manager->OnQuit();
 		break;
-	  case sf::Event::KeyPressed:
+	case sf::Event::KeyPressed:
 		state = input_manager->OnKeyDown(e.key);
 		break;
 	default:
