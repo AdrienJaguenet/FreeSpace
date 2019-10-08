@@ -44,5 +44,10 @@ public:
 	{
 		graphics = std::move(new_graphics);
 	};
+
+	void MoveUpwards();
+	void MoveDownwards();
+	void MoveLeftwards();
+	void MoveRightwards();
 };
 

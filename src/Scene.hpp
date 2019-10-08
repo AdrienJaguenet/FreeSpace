@@ -4,6 +4,8 @@
 
 #include "Entity.hpp"
 
+class Entity;
+
 class Scene
 {
 private:
