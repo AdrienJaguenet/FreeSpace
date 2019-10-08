@@ -3,7 +3,7 @@
 #include "LinearPhysicsComponent.hpp"
 #include "InvisibleGraphicsComponent.hpp"
 
-Scene::Scene(sf::RenderWindow& window) :
+Scene::Scene(sf::RenderTarget& window) :
 	window(window)
 {
 

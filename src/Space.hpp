@@ -22,5 +22,9 @@ public:
 	void Update();
 	void Render();
 	void Load();
+	Entity& GetPlayerEntity()
+	{
+		return scene.GetEntity(player_id);
+	}
 };
 

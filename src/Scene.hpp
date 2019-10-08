@@ -12,12 +12,15 @@ class Scene
 {
 private:
 	std::vector<Entity> ents;
-	sf::RenderWindow& window;
+	sf::RenderTarget& window;
 public:
-	Scene(sf::RenderWindow& window);
+	Scene(sf::RenderTarget& window);
 	/* returns the player's ID (position in the ents list) */
 	int SpawnPlayer();
-	Entity& GetEntity(int id);
+	Entity& GetEntity(int id)
+	{
+		return ents[id];
+	}
 	void Update(int dt);
 	void Render();
 };

@@ -1,5 +1,7 @@
 #include "Space.hpp"
 
+#include <iostream>
+
 #include <SFML/Graphics.hpp>
 
 Space::Space(sf::RenderWindow& window) :

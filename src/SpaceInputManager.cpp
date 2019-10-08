@@ -13,6 +13,7 @@ GameState SpaceInputManager::OnClick(const sf::Event::MouseButtonEvent& e)
 
 GameState SpaceInputManager::OnKeyDown(const sf::Event::KeyEvent& e)
 {
+	Entity* player = &(space.GetPlayerEntity());
 	switch (e.code) {
 	case sf::Keyboard::Key::W:
 		player->MoveUpwards();
@@ -30,6 +31,7 @@ GameState SpaceInputManager::OnKeyDown(const sf::Event::KeyEvent& e)
 		player->MoveRightwards();
 		break;
 	}
+	return GameState::GAME_STATE_RUNNING;
 }
 
 GameState SpaceInputManager::OnQuit()
