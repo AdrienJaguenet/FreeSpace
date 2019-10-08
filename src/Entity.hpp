@@ -4,29 +4,30 @@
 #include "GraphicsComponent.hpp"
 
 #include <memory>
+#include <string>
+
+#include <SFML/System.hpp>
 
 class Entity
 {
 private:
-	struct {
-		float x, y;
-	} pos;
-	struct {
-		float x, y;
-	} vel;
-	struct {
-		float x, y;
-	} acc;
+  sf::Vector2<float> pos;
+  sf::Vector2<float> vel;
+  sf::Vector2<float> acc;
 	float raw; /* in radians */
 	std::unique_ptr<PhysicsComponent> physics;
 	std::unique_ptr<GraphicsComponent> graphics;
+	std::string name;
 public:
 	void Update(int dt, Scene& sc);
 
-	PhysicsComponent& getPhysicsComponent();
-	GraphicsComponent& getGraphicsComponent();
+	std::string& GetName() { return name; }
+	void SetName(const std::string& new_name) { name = new_name; }
 
-	void setPhysicsComponent(std::unique_ptr<PhysicsComponent> new_physics);
-	void setGraphicsComponent(std::unique_ptr<GraphicsComponent> new_graphics);
+	PhysicsComponent& GetPhysicsComponent();
+	GraphicsComponent& GetGraphicsComponent();
+
+	void SetPhysicsComponent(std::unique_ptr<PhysicsComponent> new_physics);
+	void SetGraphicsComponent(std::unique_ptr<GraphicsComponent> new_graphics);
 };
 

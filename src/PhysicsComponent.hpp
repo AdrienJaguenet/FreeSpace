@@ -2,6 +2,9 @@
 
 #include "Scene.hpp"
 
+class Scene;
+class Entity;
+
 class PhysicsComponent
 {
   private:
