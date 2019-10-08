@@ -2,8 +2,9 @@
 
 #include "GameState.hpp"
 #include "InputManager.hpp"
-#include "Snake.hpp"
-#include "SnakeInputManager.hpp"
+
+#include "Space.hpp"
+#include "SpaceInputManager.hpp"
 
 #include <SDL2/SDL.h>
 #include <vector>
@@ -24,9 +25,9 @@ public:
 	void Render();
 
 private:
-	Snake snake;
 	unsigned int latest_tick, delta_tick;
 	int offset_x, offset_y;
-	SnakeInputManager snake_input_manager;
+	Space space;
 	InputManager* input_manager;
+	SpaceInputManager space_input_manager;
 };

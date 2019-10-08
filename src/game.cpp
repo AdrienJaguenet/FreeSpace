@@ -9,8 +9,8 @@
 Game::Game(std::vector<std::string>& args) :
 	offset_x(10),
 	offset_y(10),
-	snake_input_manager(snake),
-	input_manager(&snake_input_manager)
+	space_input_manager(space),
+	input_manager(&space_input_manager)
 {
 	int grid_width(20), grid_height(20);
 	this->window = SDL_CreateWindow("FreeSnake", SDL_WINDOWPOS_UNDEFINED,
@@ -30,8 +30,8 @@ Game::Game(std::vector<std::string>& args) :
 
 	srand(time(NULL));
 
-	snake.SetRenderer(renderer);
-	snake.Load(grid_width, grid_height);
+	space.SetRenderer(renderer);
+	space.Load();
 
 	this->latest_tick = SDL_GetTicks();
 	this->state = GAME_STATE_RUNNING;
@@ -68,18 +68,18 @@ void Game::Update()
 	static int turn_count(0);
 	unsigned int new_time = SDL_GetTicks();
 	this->delta_tick = new_time - this->latest_tick;
-	if (delta_tick < snake.GetRefreshPeriod()) {
-		SDL_Delay(snake.GetRefreshPeriod() - delta_tick);
+	if (delta_tick < space.GetRefreshPeriod()) {
+		SDL_Delay(space.GetRefreshPeriod() - delta_tick);
 		return;
 	} else {
 		this->latest_tick = new_time;
 		++turn_count;
-		snake.Update();
+		space.Update();
 	}
 }
 
 void Game::Render()
 {
-	snake.Render(offset_x, offset_y);
+	space.Render(offset_x, offset_y);
 }
 
