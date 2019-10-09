@@ -65,8 +65,8 @@ GameState SpaceInputManager::OnQuit()
 GameState SpaceInputManager::OnMouseMoved(const sf::Event::MouseMoveEvent& e)
 {
 	Entity* player = &(space.GetPlayerEntity());
-	float dx = -space.GetCamera().x + e.x - player->GetPhysicsComponent().pos.x;
-	float dy = -space.GetCamera().y + e.y - player->GetPhysicsComponent().pos.y;
+	float dx = space.GetCamera().x + e.x - player->GetPhysicsComponent().pos.x;
+	float dy = space.GetCamera().y + e.y - player->GetPhysicsComponent().pos.y;
 	player->GetPhysicsComponent().yaw = atan2f(dx, -dy);
 	return GameState::GAME_STATE_RUNNING;
 }

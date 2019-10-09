@@ -10,9 +10,9 @@ LDLIBS=-lsfml-graphics -lsfml-window -lsfml-system
 
 TARGET=FreeSpace
 SRC=\
+	src/Scene.cpp\
 	src/Game.cpp\
 	src/Main.cpp\
-	src/Scene.cpp\
 	src/Space.cpp\
 	src/LinearPhysicsComponent.cpp\
 	src/SpaceInputManager.cpp\

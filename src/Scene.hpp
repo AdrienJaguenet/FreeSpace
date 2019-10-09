@@ -22,6 +22,7 @@ public:
 	Scene(sf::RenderTarget& window);
 	/* returns the player's ID (position in the ents list) */
 	int SpawnPlayer();
+	void SpawnRock(float x, float y);
 	Entity& GetEntity(int id)
 	{
 		return ents[id];

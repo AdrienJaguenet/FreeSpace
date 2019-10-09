@@ -9,7 +9,7 @@
 Game::Game(std::vector<std::string>& args) :
 	space_input_manager(space),
 	input_manager(&space_input_manager),
-	window(sf::VideoMode(600, 400), "FreeSpace"),
+	window(sf::VideoMode(1000, 800), "FreeSpace"),
 	space(window)
 {
 	srand(time(NULL));
