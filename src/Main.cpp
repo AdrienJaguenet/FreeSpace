@@ -16,13 +16,18 @@ int main(int argc, char** argv)
 
 	std::cerr << "Launching game..." << std::endl;
 	Game game(args);
+	sf::Event e;
+	sf::Clock clock;
 
 	while (game.state == GAME_STATE_RUNNING) {
-		sf::Event e;
-		while(game.getWindow().pollEvent(e))
-			game.ProcessEvent(e);
-		game.Update();
-		game.Render();
+		if (clock.getElapsedTime().asMilliseconds() > 10.f){
+		  while(game.getWindow().pollEvent(e)) {
+			  game.ProcessEvent(e);
+		  }
+		  game.Update(clock.getElapsedTime().asMilliseconds());
+		  game.Render();
+		  clock.restart();
+		}
 	}
 
 	return 0;

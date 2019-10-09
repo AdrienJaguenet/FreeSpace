@@ -14,11 +14,13 @@ class GraphicsComponent;
 class Entity
 {
 private:
-	float raw; /* in radians */
 	std::unique_ptr<PhysicsComponent> physics;
 	std::unique_ptr<GraphicsComponent> graphics;
 	std::string name;
+	
+	bool stagedForDestruction;
 public:
+	Entity();
 	void Update(int dt, Scene& sc);
 
 	std::string& GetName()
@@ -62,5 +64,9 @@ public:
 	void StopMovingDownwards();
 	void StopMovingLeftwards();
 	void StopMovingRightwards();
+
+	void Destroy();
+
+	bool IsStagedForDestruction() { return stagedForDestruction; }
 };
 

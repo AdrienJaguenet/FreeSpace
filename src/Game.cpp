@@ -39,17 +39,9 @@ void Game::ProcessEvent(sf::Event &e)
 	}
 }
 
-void Game::Update()
+void Game::Update(int dt)
 {
-	static int turn_count(0);
-	this->delta_tick = clock.restart().asMilliseconds();
-	if (delta_tick < space.GetRefreshPeriod()) {
-		sf::sleep(sf::milliseconds(space.GetRefreshPeriod() - delta_tick));
-		return;
-	} else {
-		++turn_count;
-		space.Update();
-	}
+	space.Update(dt);
 }
 
 void Game::Render()

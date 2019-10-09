@@ -23,6 +23,8 @@ public:
 	/* returns the player's ID (position in the ents list) */
 	int SpawnPlayer();
 	void SpawnRock(float x, float y);
+	/* spawns a projectile */
+	void ShootProjectile(Entity& from);
 	Entity& GetEntity(int id)
 	{
 		return ents[id];

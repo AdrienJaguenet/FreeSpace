@@ -1,5 +1,11 @@
 #include "Entity.hpp"
 
+Entity::Entity() :
+  stagedForDestruction(false)
+{
+
+}
+
 void Entity::MoveUpwards()
 {
 	this->GetPhysicsComponent().frontThrust = 250.f;

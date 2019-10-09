@@ -15,7 +15,7 @@ public:
 	GameState state;
 
 	Game(std::vector<std::string> &args);
-	void Update();
+	void Update(int);
 	void ProcessEvent(sf::Event &e);
 	void Quit();
 	void Render();

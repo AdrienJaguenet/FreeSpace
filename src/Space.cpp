@@ -11,9 +11,9 @@ Space::Space(sf::RenderWindow& window) :
 
 }
 
-void Space::Update()
+void Space::Update(int dt)
 {
-	scene.Update(15);
+	scene.Update(dt);
 }
 
 void Space::Render()
@@ -29,7 +29,7 @@ void Space::Load()
 {
 	player_id = scene.SpawnPlayer();
 	for (int i(0); i < 10; ++i) {
-		scene.SpawnRock(rand() % 150, rand() % 150);
+		scene.SpawnRock(rand() % 600, rand() % 600);
 	}
 }
 

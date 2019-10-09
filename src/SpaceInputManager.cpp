@@ -53,7 +53,11 @@ GameState SpaceInputManager::OnKeyUp(const sf::Event::KeyEvent& e)
 	case sf::Keyboard::Key::D:
 		player->StopMovingRightwards();
 		break;
+	case sf::Keyboard::Key::Space:
+		space.GetScene().ShootProjectile(*player);
+		break;
 	}
+
 	return GameState::GAME_STATE_RUNNING;
 }
 

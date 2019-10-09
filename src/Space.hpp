@@ -21,7 +21,7 @@ public:
 	{
 		return refreshPeriod;
 	}
-	void Update();
+	void Update(int dt);
 	void Render();
 	void Load();
 	Camera& GetCamera()
@@ -31,6 +31,9 @@ public:
 	Entity& GetPlayerEntity()
 	{
 		return scene.GetEntity(player_id);
+	}
+	Scene& GetScene() {
+	  return scene;
 	}
 };
 
