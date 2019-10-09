@@ -15,8 +15,8 @@ private:
 	int player_id;
 	sf::RenderWindow& window;
 	Camera camera;
-  sf::Font hudFont;
-  sf::Text hudText;
+	sf::Font hudFont;
+	sf::Text hudText;
 public:
 	Space(sf::RenderWindow& window);
 	int GetRefreshPeriod()
@@ -24,8 +24,8 @@ public:
 		return refreshPeriod;
 	}
 	void Update(int dt);
-  void Render();
-  void RenderHUD();
+	void Render();
+	void RenderHUD();
 	void Load();
 	Camera& GetCamera()
 	{
@@ -35,8 +35,9 @@ public:
 	{
 		return scene.GetEntity(player_id);
 	}
-	Scene& GetScene() {
-	  return scene;
+	Scene& GetScene()
+	{
+		return scene;
 	}
 };
 

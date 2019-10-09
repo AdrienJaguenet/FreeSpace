@@ -81,6 +81,8 @@ void Scene::Update(int dt)
 		e.Update(*this, dt);
 	}
 	std::remove_if(ents.begin(), ents.end(),
-		[](Entity& e) { return e.IsStagedForDestruction();});
+	[](Entity& e) {
+		return e.IsStagedForDestruction();
+	});
 }
 

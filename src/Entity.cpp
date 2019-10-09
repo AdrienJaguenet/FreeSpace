@@ -1,7 +1,7 @@
 #include "Entity.hpp"
 
 Entity::Entity() :
-  stagedForDestruction(false)
+	stagedForDestruction(false)
 {
 
 }

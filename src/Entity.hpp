@@ -17,7 +17,7 @@ private:
 	std::unique_ptr<PhysicsComponent> physics;
 	std::unique_ptr<GraphicsComponent> graphics;
 	std::string name;
-	
+
 	bool stagedForDestruction;
 public:
 	Entity();
@@ -67,6 +67,9 @@ public:
 
 	void Destroy();
 
-	bool IsStagedForDestruction() { return stagedForDestruction; }
+	bool IsStagedForDestruction()
+	{
+		return stagedForDestruction;
+	}
 };
 

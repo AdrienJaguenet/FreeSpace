@@ -5,8 +5,8 @@
 class ProjectilePhysicsComponent : public LinearPhysicsComponent
 {
 private:
-  int ttl;
+	int ttl;
 public:
-  ProjectilePhysicsComponent(int ttl) : LinearPhysicsComponent(), ttl(ttl) {}
+	ProjectilePhysicsComponent(int ttl) : LinearPhysicsComponent(), ttl(ttl) {}
 };
 
