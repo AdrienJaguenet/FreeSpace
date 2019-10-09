@@ -28,6 +28,9 @@ void Game::ProcessEvent(sf::Event &e)
 	case sf::Event::KeyPressed:
 		state = input_manager->OnKeyDown(e.key);
 		break;
+	case sf::Event::KeyReleased:
+		state = input_manager->OnKeyUp(e.key);
+		break;
 	default:
 		break;
 	}

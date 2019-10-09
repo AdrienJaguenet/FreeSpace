@@ -50,9 +50,16 @@ public:
 
 	void Render(Scene& scene, Camera& camera);
 
+	bool IsRunning();
+
 	void MoveUpwards();
 	void MoveDownwards();
 	void MoveLeftwards();
 	void MoveRightwards();
+
+	void StopMovingUpwards();
+	void StopMovingDownwards();
+	void StopMovingLeftwards();
+	void StopMovingRightwards();
 };
 

@@ -10,5 +10,6 @@ class GraphicsComponent
 private:
 public:
 	virtual void Render(Entity& e, Scene& sc, Camera& c) = 0;
+	virtual void OnMoveEntity(Entity& e) {}
 };
 

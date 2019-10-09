@@ -1,7 +1,7 @@
 #include "Scene.hpp"
 
 #include "LinearPhysicsComponent.hpp"
-#include "StaticSpriteGraphicsComponent.hpp"
+#include "ShipSpriteGraphicsComponent.hpp"
 
 sf::Texture Scene::LoadTexture(const std::string& path)
 {
@@ -16,7 +16,9 @@ Scene::Scene(sf::RenderTarget& window) :
 	window(window)
 {
 	textures["ship_player"] = LoadTexture("res/ship_player.png");
+	textures["ship_player_running"] = LoadTexture("res/ship_player_running.png");
 	sprites["ship_player"] = sf::Sprite(textures["ship_player"]);
+	sprites["ship_player_running"] = sf::Sprite(textures["ship_player_running"]);
 }
 
 int Scene::SpawnPlayer()
@@ -25,7 +27,7 @@ int Scene::SpawnPlayer()
 	int ent_id = ents.size() - 1;
 	ents[ent_id].SetName("player");
 	ents[ent_id].SetPhysicsComponent(std::make_unique<LinearPhysicsComponent>());
-	ents[ent_id].SetGraphicsComponent(std::make_unique<StaticSpriteGraphicsComponent>(sprites["ship_player"]));
+	ents[ent_id].SetGraphicsComponent(std::make_unique<ShipSpriteGraphicsComponent>(sprites["ship_player"], sprites["ship_player_running"]));
 	return ent_id;
 }
 

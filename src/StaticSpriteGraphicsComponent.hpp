@@ -4,7 +4,7 @@
 
 class StaticSpriteGraphicsComponent : public GraphicsComponent
 {
-private:
+protected:
 	sf::Sprite* sprite;
 public:
 	StaticSpriteGraphicsComponent(sf::Sprite& sprite);
