@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cmath>
+
 #include "Space.hpp"
 #include "InputManager.hpp"
 
