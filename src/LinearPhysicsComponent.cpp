@@ -11,8 +11,4 @@ void LinearPhysicsComponent::Update(int dt, Scene& scene, Entity& entity)
 	vel.y = frontThrust * -cosf(yaw) + sideThrust * cosf(yaw);
 	pos.x += dt_f * vel.x;
 	pos.y += dt_f * vel.y;
-	std::cerr << "update physics, dt = " << dt_f << std::endl;
-	std::cerr << "vel.x = " << vel.x << std::endl;
-	std::cerr << "pos.x = " << pos.x << std::endl;
-	std::cerr << "yaw = " << yaw << std::endl;
 }

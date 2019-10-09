@@ -18,6 +18,9 @@ void Space::Update()
 
 void Space::Render()
 {
+	Entity& player = scene.GetEntity(player_id);
+	camera.x = player.GetPhysicsComponent().pos.x + window.getSize().x / 2;
+	camera.y = player.GetPhysicsComponent().pos.y + window.getSize().y / 2;
 	window.clear(sf::Color::Black);
 	scene.Render(camera);
 }

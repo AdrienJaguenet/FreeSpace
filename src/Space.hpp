@@ -15,7 +15,6 @@ private:
 	int player_id;
 	sf::RenderWindow& window;
 	Camera camera;
-	sf::Texture LoadTexture(const std::string& path);
 public:
 	Space(sf::RenderWindow& window);
 	int GetRefreshPeriod()
@@ -25,6 +24,10 @@ public:
 	void Update();
 	void Render();
 	void Load();
+	Camera& GetCamera()
+	{
+		return camera;
+	}
 	Entity& GetPlayerEntity()
 	{
 		return scene.GetEntity(player_id);

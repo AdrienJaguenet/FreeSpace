@@ -1,10 +1,13 @@
 #include "Scene.hpp"
 
+#include <iostream>
+
 #include "LinearPhysicsComponent.hpp"
 #include "ShipSpriteGraphicsComponent.hpp"
 
 sf::Texture Scene::LoadTexture(const std::string& path)
 {
+	std::cerr << "Loading '"+path+"'" << std::endl;
 	sf::Texture tex;
 	if (! tex.loadFromFile(path)) {
 		throw std::runtime_error("Could not load texture '"+path+"'");
@@ -15,8 +18,11 @@ sf::Texture Scene::LoadTexture(const std::string& path)
 Scene::Scene(sf::RenderTarget& window) :
 	window(window)
 {
+	textures["background1"] = LoadTexture("res/bg1.jpg");
+	textures["background1"].setRepeated(true);
 	textures["ship_player"] = LoadTexture("res/ship_player.png");
 	textures["ship_player_running"] = LoadTexture("res/ship_player_running.png");
+	sprites["background1"] = sf::Sprite(textures["background1"]);
 	sprites["ship_player"] = sf::Sprite(textures["ship_player"]);
 	sprites["ship_player_running"] = sf::Sprite(textures["ship_player_running"]);
 }
@@ -33,6 +39,9 @@ int Scene::SpawnPlayer()
 
 void Scene::Render(Camera& camera)
 {
+	sprites["background1"].setTextureRect(sf::IntRect(0, 0, 1000, 1000));
+	sprites["background1"].setPosition(sf::Vector2f(camera.x / 5.f, camera.y / 5.f));
+	window.draw(sprites["background1"]);
 	for (auto & e : ents) {
 		e.Render(*this, camera);
 	}
