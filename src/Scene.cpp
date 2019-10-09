@@ -40,10 +40,13 @@ Entity* Scene::SpawnPlayer()
 {
 	std::string entName = "player" + std::to_string(ent_cnt);
 	ents.insert(std::make_pair(entName, Entity()));
-	ents[entName].SetName(entName);
-	ents[entName].SetPhysicsComponent(std::make_unique<LinearPhysicsComponent>());
-	ents[entName].SetGraphicsComponent(std::make_unique<ShipSpriteGraphicsComponent>(sprites["ship_player"], sprites["ship_player_running"]));
-	ents[entName].SetCollisionsComponent(std::make_unique<CollisionsComponent>());
+	Entity& e = ents[entName];
+	e.SetName(entName);
+	e.SetPhysicsComponent(std::make_unique<LinearPhysicsComponent>());
+	e.SetGraphicsComponent(std::make_unique<ShipSpriteGraphicsComponent>(sprites["ship_player"], sprites["ship_player_running"]));
+	e.SetCollisionsComponent(std::make_unique<CollisionsComponent>());
+	e.GetPhysicsComponent().body.width = 32.f;
+	e.GetPhysicsComponent().body.height = 32.f;
 	++ ent_cnt;
 	return &(ents[entName]);
 }
@@ -52,11 +55,14 @@ void Scene::SpawnRock(float x, float y)
 {
 	std::string entName = "rock" + std::to_string(ent_cnt);
 	ents.insert(std::make_pair(entName, Entity()));
-	ents[entName].SetName(entName);
-	ents[entName].SetPhysicsComponent(std::make_unique<ImmobilePhysicsComponent>());
-	ents[entName].SetGraphicsComponent(std::make_unique<StaticSpriteGraphicsComponent>( sprites["rock"]));
-	ents[entName].GetPhysicsComponent().pos = sf::Vector2f(x, y);
-	ents[entName].SetCollisionsComponent(std::make_unique<CollisionsComponent>());
+	Entity& e = ents[entName];
+	e.SetName(entName);
+	e.SetPhysicsComponent(std::make_unique<ImmobilePhysicsComponent>());
+	e.SetGraphicsComponent(std::make_unique<StaticSpriteGraphicsComponent>( sprites["rock"]));
+	e.GetPhysicsComponent().pos = sf::Vector2f(x, y);
+	e.SetCollisionsComponent(std::make_unique<CollisionsComponent>());
+	e.GetPhysicsComponent().body.width = 32.f;
+	e.GetPhysicsComponent().body.height = 32.f;
 	++ ent_cnt;
 }
 
@@ -64,13 +70,16 @@ void Scene::ShootProjectile(Entity& from)
 {
 	std::string entName = "projectile" + std::to_string(ent_cnt);
 	ents.insert(std::make_pair(entName, Entity()));
-	ents[entName].SetName(entName);
-	ents[entName].SetPhysicsComponent(std::make_unique<ProjectilePhysicsComponent>(800));
-	ents[entName].SetGraphicsComponent(std::make_unique<StaticSpriteGraphicsComponent>( sprites["projectile1"]));
-	ents[entName].SetCollisionsComponent(std::make_unique<ProjectileCollisionsComponent>(10));
-	ents[entName].GetPhysicsComponent().pos = from.GetPhysicsComponent().pos;
-	ents[entName].GetPhysicsComponent().yaw = from.GetPhysicsComponent().yaw;
-	ents[entName].GetPhysicsComponent().frontThrust = 1000.f;
+	Entity& e = ents[entName];
+	e.SetName(entName);
+	e.SetPhysicsComponent(std::make_unique<ProjectilePhysicsComponent>(800));
+	e.SetGraphicsComponent(std::make_unique<StaticSpriteGraphicsComponent>( sprites["projectile1"]));
+	e.SetCollisionsComponent(std::make_unique<ProjectileCollisionsComponent>(10));
+	e.GetPhysicsComponent().pos = from.GetPhysicsComponent().pos;
+	e.GetPhysicsComponent().yaw = from.GetPhysicsComponent().yaw;
+	e.GetPhysicsComponent().frontThrust = 1000.f;
+	e.GetPhysicsComponent().body.width = 16.f;
+	e.GetPhysicsComponent().body.height = 16.f;
 	++ ent_cnt;
 }
 

@@ -5,6 +5,7 @@
 
 void LinearPhysicsComponent::Update(int dt, Scene& scene, Entity& entity)
 {
+	this->PhysicsComponent::Update(dt, scene, entity);
 	float dt_f = (float) dt / 1000.f;
 
 	vel.x = frontThrust * sinf(yaw) + sideThrust * -cosf(yaw);
