@@ -1,6 +1,8 @@
 #include "Space.hpp"
 
 #include <iostream>
+#include <sstream>
+#include <iomanip>
 
 #include <SFML/Graphics.hpp>
 
@@ -8,6 +10,10 @@ Space::Space(sf::RenderWindow& window) :
 	scene(window),
 	window(window)
 {
+	hudFont.loadFromFile("res/pixelplay.ttf");
+	hudText.setFont(hudFont);
+	hudText.setCharacterSize(16);
+	hudText.setFillColor(sf::Color::White);
 
 }
 
@@ -23,6 +29,21 @@ void Space::Render()
 	camera.y = player.GetPhysicsComponent().pos.y - window.getSize().y / 2;
 	window.clear(sf::Color::Black);
 	scene.Render(camera);
+	RenderHUD();
+}
+
+void Space::RenderHUD()
+{
+	Entity& player = scene.GetEntity(player_id);
+
+	// C++ bullshit
+	std::ostringstream ss;
+	ss << "X: " << (int)player.GetPhysicsComponent().pos.x << std::endl << "Y: "<< (int)player.GetPhysicsComponent().pos.y;
+
+	std::string str = ss.str();
+
+	hudText.setString(str);
+	window.draw(hudText);
 }
 
 void Space::Load()

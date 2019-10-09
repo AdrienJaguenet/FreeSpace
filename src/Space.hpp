@@ -15,6 +15,8 @@ private:
 	int player_id;
 	sf::RenderWindow& window;
 	Camera camera;
+	sf::Font hudFont;
+	sf::Text hudText;
 public:
 	Space(sf::RenderWindow& window);
 	int GetRefreshPeriod()
@@ -23,6 +25,7 @@ public:
 	}
 	void Update(int dt);
 	void Render();
+	void RenderHUD();
 	void Load();
 	Camera& GetCamera()
 	{

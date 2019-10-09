@@ -72,8 +72,7 @@ void Scene::ShootProjectile(Entity& from)
 
 void Scene::Render(Camera& camera)
 {
-	sprites["background1"].setTextureRect(sf::IntRect(0, 0, 1000, 1000));
-	sprites["background1"].setPosition(sf::Vector2f(-camera.x / 5.f, -camera.y / 5.f));
+	sprites["background1"].setTextureRect(sf::IntRect(camera.x / 5.f, camera.y / 5.f, 1000, 1000));
 	window.draw(sprites["background1"]);
 	for (auto & e : ents) {
 		e.Render(*this, camera);
