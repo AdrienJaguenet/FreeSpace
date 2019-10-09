@@ -74,7 +74,7 @@ void Scene::ShootProjectile(Entity& from)
 	e.SetName(entName);
 	e.SetPhysicsComponent(std::make_unique<ProjectilePhysicsComponent>(800));
 	e.SetGraphicsComponent(std::make_unique<StaticSpriteGraphicsComponent>( sprites["projectile1"]));
-	e.SetCollisionsComponent(std::make_unique<ProjectileCollisionsComponent>(10));
+	e.SetCollisionsComponent(std::make_unique<ProjectileCollisionsComponent>(&from, 10));
 	e.GetPhysicsComponent().pos = from.GetPhysicsComponent().pos;
 	e.GetPhysicsComponent().yaw = from.GetPhysicsComponent().yaw;
 	e.GetPhysicsComponent().frontThrust = 1000.f;

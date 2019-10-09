@@ -6,7 +6,8 @@
 class ProjectileCollisionsComponent : public CollisionsComponent
 {
 	int damage;
+	Entity* source; /* should not collide with source */
 public:
-	ProjectileCollisionsComponent(int damage) : damage(damage) {}
+	ProjectileCollisionsComponent(Entity* source, int damage) : source(source), damage(damage) {}
 	void OnCollision(Entity& e, Entity& f);
 };

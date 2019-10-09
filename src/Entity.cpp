@@ -81,5 +81,5 @@ void Entity::OnDamage(int d)
 
 bool Entity::CollidesWith(Entity& e)
 {
-	return e.GetPhysicsComponent().body.intersects(physics->body) and e.GetPhysicsComponent().solid and physics->solid;
+	return e.GetPhysicsComponent().body.intersects(physics->body); 
 }
