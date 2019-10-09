@@ -12,11 +12,11 @@ class Space
 private:
 	Scene scene;
 	int refreshPeriod = 25;
-	int player_id;
 	sf::RenderWindow& window;
 	Camera camera;
 	sf::Font hudFont;
 	sf::Text hudText;
+	Entity* player;
 public:
 	Space(sf::RenderWindow& window);
 	int GetRefreshPeriod()
@@ -33,7 +33,7 @@ public:
 	}
 	Entity& GetPlayerEntity()
 	{
-		return scene.GetEntity(player_id);
+		return *player;
 	}
 	Scene& GetScene()
 	{

@@ -12,7 +12,8 @@ class Entity;
 class Scene
 {
 private:
-	std::vector<Entity> ents;
+	int ent_cnt;
+	std::map<std::string, Entity> ents;
 	sf::RenderTarget& window;
 	std::map<std::string, sf::Texture> textures;
 	std::map<std::string, sf::Sprite> sprites;
@@ -21,14 +22,10 @@ private:
 public:
 	Scene(sf::RenderTarget& window);
 	/* returns the player's ID (position in the ents list) */
-	int SpawnPlayer();
+	Entity* SpawnPlayer();
 	void SpawnRock(float x, float y);
 	/* spawns a projectile */
 	void ShootProjectile(Entity& from);
-	Entity& GetEntity(int id)
-	{
-		return ents[id];
-	}
 	void Update(int dt);
 	void Render(Camera& camera);
 	sf::RenderTarget& GetRenderTarget()

@@ -24,9 +24,8 @@ void Space::Update(int dt)
 
 void Space::Render()
 {
-	Entity& player = scene.GetEntity(player_id);
-	camera.x = player.GetPhysicsComponent().pos.x - window.getSize().x / 2;
-	camera.y = player.GetPhysicsComponent().pos.y - window.getSize().y / 2;
+	camera.x = player->GetPhysicsComponent().pos.x - window.getSize().x / 2;
+	camera.y = player->GetPhysicsComponent().pos.y - window.getSize().y / 2;
 	window.clear(sf::Color::Black);
 	scene.Render(camera);
 	RenderHUD();
@@ -34,11 +33,9 @@ void Space::Render()
 
 void Space::RenderHUD()
 {
-	Entity& player = scene.GetEntity(player_id);
-
 	// C++ bullshit
 	std::ostringstream ss;
-	ss << "X: " << (int)player.GetPhysicsComponent().pos.x << std::endl << "Y: "<< (int)player.GetPhysicsComponent().pos.y;
+	ss << "X: " << (int)player->GetPhysicsComponent().pos.x << std::endl << "Y: "<< (int)player->GetPhysicsComponent().pos.y;
 
 	std::string str = ss.str();
 
@@ -48,7 +45,7 @@ void Space::RenderHUD()
 
 void Space::Load()
 {
-	player_id = scene.SpawnPlayer();
+	player = scene.SpawnPlayer();
 	for (int i(0); i < 10; ++i) {
 		scene.SpawnRock(rand() % 600, rand() % 600);
 	}
