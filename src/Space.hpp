@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Camera.hpp"
 #include "Scene.hpp"
 
 #include <SFML/Graphics.hpp>
@@ -13,6 +14,8 @@ private:
 	int refreshPeriod = 25;
 	int player_id;
 	sf::RenderWindow& window;
+	Camera camera;
+	sf::Texture LoadTexture(const std::string& path);
 public:
 	Space(sf::RenderWindow& window);
 	int GetRefreshPeriod()

@@ -9,6 +9,6 @@ class GraphicsComponent
 {
 private:
 public:
-	virtual void Render(Entity& e, Scene& sc) = 0;
+	virtual void Render(Entity& e, Scene& sc, Camera& c) = 0;
 };
 

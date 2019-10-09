@@ -20,3 +20,7 @@ void Entity::MoveRightwards()
 	this->GetPhysicsComponent().vel.x = 1.f;
 }
 
+void Entity::Render(Scene& scene, Camera& camera)
+{
+	graphics->Render(*this, scene, camera);
+}

@@ -48,10 +48,7 @@ public:
 		graphics = std::move(new_graphics);
 	};
 
-	void Render(Scene& scene)
-	{
-		graphics->Render(*this, scene);
-	}
+	void Render(Scene& scene, Camera& camera);
 
 	void MoveUpwards();
 	void MoveDownwards();

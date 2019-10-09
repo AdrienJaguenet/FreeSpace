@@ -7,6 +7,6 @@ class InvisibleGraphicsComponent : public GraphicsComponent
 private:
 public:
 	/* Do nothing, the trivial graphics component */
-	void Render(Entity& e, Scene& sc) { }
+	void Render(Entity& e, Scene& sc, Camera& c) { }
 };
 

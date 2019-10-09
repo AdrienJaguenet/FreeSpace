@@ -19,7 +19,7 @@ void Space::Update()
 void Space::Render()
 {
 	window.clear(sf::Color::Black);
-	scene.Render();
+	scene.Render(camera);
 }
 
 void Space::Load()
