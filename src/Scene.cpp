@@ -37,3 +37,10 @@ void Scene::Render(Camera& camera)
 		e.Render(*this, camera);
 	}
 }
+void Scene::Update(int dt)
+{
+	for (auto & e : ents) {
+		e.Update(*this, dt);
+	}
+}
+

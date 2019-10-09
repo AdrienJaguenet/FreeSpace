@@ -12,6 +12,7 @@ public:
 	GameState OnClick(const sf::Event::MouseButtonEvent& e);
 	GameState OnKeyDown(const sf::Event::KeyEvent& e);
 	GameState OnKeyUp(const sf::Event::KeyEvent& e);
+	GameState OnMouseMoved(const sf::Event::MouseMoveEvent& e);
 	GameState OnQuit();
 };
 

@@ -13,7 +13,7 @@ Space::Space(sf::RenderWindow& window) :
 
 void Space::Update()
 {
-
+	scene.Update(15);
 }
 
 void Space::Render()

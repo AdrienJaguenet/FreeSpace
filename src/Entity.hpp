@@ -49,8 +49,9 @@ public:
 	};
 
 	void Render(Scene& scene, Camera& camera);
+	void Update(Scene& scene, int dt);
 
-	bool IsRunning();
+	bool IsThrusting();
 
 	void MoveUpwards();
 	void MoveDownwards();
