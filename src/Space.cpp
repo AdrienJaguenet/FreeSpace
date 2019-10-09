@@ -13,7 +13,7 @@ Space::Space(sf::RenderWindow& window) :
 	hudFont.loadFromFile("res/pixelplay.ttf");
 	hudText.setFont(hudFont);
 	hudText.setCharacterSize(16);
-	hudText.setFillColor(sf::Color::White);
+	hudText.setColor(sf::Color::White);
 
 }
 
