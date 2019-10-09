@@ -1,7 +1,7 @@
 #include "Entity.hpp"
 
 Entity::Entity() :
-  stagedForDestruction(false)
+	stagedForDestruction(false)
 {
 
 }
@@ -67,4 +67,19 @@ void Entity::Update(Scene& scene, int dt)
 bool Entity::IsThrusting()
 {
 	return physics->frontThrust > 0.f;
+}
+
+void Entity::OnCollision(Entity& e)
+{
+	collisions->OnCollision(*this, e);
+	physics->OnCollision(*this, e);
+}
+
+void Entity::OnDamage(int d)
+{
+}
+
+bool Entity::CollidesWith(Entity& e)
+{
+	return e.GetPhysicsComponent().body.intersects(physics->body) and e.GetPhysicsComponent().solid and physics->solid;
 }

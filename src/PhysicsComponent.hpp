@@ -11,12 +11,16 @@ class PhysicsComponent
 {
 private:
 public:
+	bool solid;
 	float frontThrust;
 	float sideThrust;
 	float yaw; /* in radians */
 	sf::Vector2<float> pos;
 	sf::Vector2<float> vel;
 	sf::Vector2<float> acc;
+	sf::Rect<float> body;
 	virtual void Update(int dt, Scene& scene, Entity& entity) = 0;
+	/* A collides into B */
+	virtual void OnCollision(Entity& a, Entity& b) = 0;
 };
 

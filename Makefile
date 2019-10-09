@@ -18,7 +18,10 @@ SRC=\
 	src/SpaceInputManager.cpp\
 	src/Entity.cpp\
 	src/StaticSpriteGraphicsComponent.cpp\
-	src/ShipSpriteGraphicsComponent.cpp
+	src/ShipSpriteGraphicsComponent.cpp\
+	src/ProjectilePhysicsComponent.cpp\
+	src/ProjectileCollisionsComponent.cpp\
+	src/CollisionsComponent.cpp
 
 OBJ=$(SRC:.cpp=.o)
 

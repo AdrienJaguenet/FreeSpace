@@ -8,5 +8,6 @@ private:
 public:
 	/* do nothing, literally the trivial component */
 	void Update(int dt, Scene& scene, Entity& entity) { }
+	void OnCollision(Entity& a, Entity& b) { };
 };
 

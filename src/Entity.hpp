@@ -2,6 +2,7 @@
 
 #include "PhysicsComponent.hpp"
 #include "GraphicsComponent.hpp"
+#include "CollisionsComponent.hpp"
 
 #include <memory>
 #include <string>
@@ -10,14 +11,16 @@
 
 class PhysicsComponent;
 class GraphicsComponent;
+class CollisionsComponent;
 
 class Entity
 {
 private:
 	std::unique_ptr<PhysicsComponent> physics;
 	std::unique_ptr<GraphicsComponent> graphics;
+	std::unique_ptr<CollisionsComponent> collisions;
 	std::string name;
-	
+
 	bool stagedForDestruction;
 public:
 	Entity();
@@ -40,6 +43,10 @@ public:
 	{
 		return *graphics;
 	}
+	CollisionsComponent& getCollisionsComponent()
+	{
+		return *collisions;
+	}
 
 	void SetPhysicsComponent(std::unique_ptr<PhysicsComponent> new_physics)
 	{
@@ -48,6 +55,10 @@ public:
 	void SetGraphicsComponent(std::unique_ptr<GraphicsComponent> new_graphics)
 	{
 		graphics = std::move(new_graphics);
+	};
+	void SetCollisionsComponent(std::unique_ptr<CollisionsComponent> new_collisions)
+	{
+		collisions = std::move(new_collisions);
 	};
 
 	void Render(Scene& scene, Camera& camera);
@@ -65,8 +76,18 @@ public:
 	void StopMovingLeftwards();
 	void StopMovingRightwards();
 
-	void Destroy();
+	void Destroy()
+	{
+		stagedForDestruction = true;
+	}
 
-	bool IsStagedForDestruction() { return stagedForDestruction; }
+	void OnCollision(Entity& e);
+	void OnDamage(int d);
+
+	bool CollidesWith(Entity& e);
+	bool IsStagedForDestruction()
+	{
+		return stagedForDestruction;
+	}
 };
 

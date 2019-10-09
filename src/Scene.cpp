@@ -7,6 +7,7 @@
 #include "LinearPhysicsComponent.hpp"
 #include "ShipSpriteGraphicsComponent.hpp"
 #include "StaticSpriteGraphicsComponent.hpp"
+#include "ProjectileCollisionsComponent.hpp"
 
 sf::Texture Scene::LoadTexture(const std::string& path)
 {
@@ -41,6 +42,7 @@ int Scene::SpawnPlayer()
 	ents[ent_id].SetName("player");
 	ents[ent_id].SetPhysicsComponent(std::make_unique<LinearPhysicsComponent>());
 	ents[ent_id].SetGraphicsComponent(std::make_unique<ShipSpriteGraphicsComponent>(sprites["ship_player"], sprites["ship_player_running"]));
+	ents[ent_id].SetCollisionsComponent(std::make_unique<CollisionsComponent>());
 	return ent_id;
 }
 
@@ -52,6 +54,7 @@ void Scene::SpawnRock(float x, float y)
 	ents[ent_id].SetPhysicsComponent(std::make_unique<ImmobilePhysicsComponent>());
 	ents[ent_id].SetGraphicsComponent(std::make_unique<StaticSpriteGraphicsComponent>( sprites["rock"]));
 	ents[ent_id].GetPhysicsComponent().pos = sf::Vector2f(x, y);
+	ents[ent_id].SetCollisionsComponent(std::make_unique<CollisionsComponent>());
 }
 
 void Scene::ShootProjectile(Entity& from)
@@ -61,6 +64,7 @@ void Scene::ShootProjectile(Entity& from)
 	ents[ent_id].SetName("projectile");
 	ents[ent_id].SetPhysicsComponent(std::make_unique<ProjectilePhysicsComponent>(800));
 	ents[ent_id].SetGraphicsComponent(std::make_unique<StaticSpriteGraphicsComponent>( sprites["projectile1"]));
+	ents[ent_id].SetCollisionsComponent(std::make_unique<ProjectileCollisionsComponent>(10));
 	ents[ent_id].GetPhysicsComponent().pos = from.GetPhysicsComponent().pos;
 	ents[ent_id].GetPhysicsComponent().yaw = from.GetPhysicsComponent().yaw;
 	ents[ent_id].GetPhysicsComponent().frontThrust = 1000.f;
@@ -80,7 +84,18 @@ void Scene::Update(int dt)
 	for (auto & e : ents) {
 		e.Update(*this, dt);
 	}
+	for (auto & e : ents) {
+		for (auto & f : ents) {
+			if (&e != &f) {
+				if (e.CollidesWith(f)) {
+					e.OnCollision(f);
+				}
+			}
+		}
+	}
 	std::remove_if(ents.begin(), ents.end(),
-		[](Entity& e) { return e.IsStagedForDestruction();});
+	[](Entity& e) {
+		return e.IsStagedForDestruction();
+	});
 }
 

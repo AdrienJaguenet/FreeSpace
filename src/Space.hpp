@@ -32,8 +32,9 @@ public:
 	{
 		return scene.GetEntity(player_id);
 	}
-	Scene& GetScene() {
-	  return scene;
+	Scene& GetScene()
+	{
+		return scene;
 	}
 };
 

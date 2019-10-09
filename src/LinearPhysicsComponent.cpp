@@ -12,3 +12,4 @@ void LinearPhysicsComponent::Update(int dt, Scene& scene, Entity& entity)
 	pos.x += dt_f * vel.x;
 	pos.y += dt_f * vel.y;
 }
+
