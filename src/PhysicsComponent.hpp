@@ -19,7 +19,7 @@ public:
 	sf::Vector2<float> vel;
 	sf::Vector2<float> acc;
 	sf::Rect<float> body;
-	void Update(int dt, Scene& scene, Entity& entity) {
+	virtual void Update(int dt, Scene& scene, Entity& entity) {
 	  body.left = pos.x;
 	  body.top = pos.y;
 	}
