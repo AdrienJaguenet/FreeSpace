@@ -7,6 +7,11 @@
 #include "Camera.hpp"
 #include "Entity.hpp"
 
+#include "BodyComponent.hpp"
+#include "HealthComponent.hpp"
+#include "InputComponent.hpp"
+#include "GraphicComponent.hpp"
+
 class Entity;
 
 class Scene
@@ -17,6 +22,12 @@ private:
 	sf::RenderTarget& window;
 	std::map<std::string, sf::Texture> textures;
 	std::map<std::string, sf::Sprite> sprites;
+
+	std::vector<Entity> ents;
+	std::vector<std::unique_ptr<BodyComponent>> bodies;
+	std::vector<std::unique_ptr<HealthComponent>> healths;
+	std::vector<std::unique_ptr<InputComponent>> inputs;
+	std::vector<std::unique_ptr<GraphicComponent>> graphics;
 
 	sf::Texture LoadTexture(const std::string& path);
 public:
