@@ -22,7 +22,8 @@ SRC=\
 	src/ProjectilePhysicsComponent.cpp\
 	src/ProjectileCollisionsComponent.cpp\
 	src/CollisionsComponent.cpp\
-	src/DestructibleDamageComponent.cpp
+	src/DestructibleDamageComponent.cpp\
+	src/RockDestructionComponent.cpp
 
 OBJ=$(SRC:.cpp=.o)
 

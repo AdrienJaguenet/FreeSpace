@@ -4,6 +4,7 @@
 #include "GraphicsComponent.hpp"
 #include "CollisionsComponent.hpp"
 #include "DamageComponent.hpp"
+#include "DestructionComponent.hpp"
 
 #include <memory>
 #include <string>
@@ -14,6 +15,7 @@ class PhysicsComponent;
 class GraphicsComponent;
 class CollisionsComponent;
 class DamageComponent;
+class DestructionComponent;
 
 class Entity
 {
@@ -22,11 +24,13 @@ private:
 	std::unique_ptr<GraphicsComponent> graphics;
 	std::unique_ptr<CollisionsComponent> collisions;
 	std::unique_ptr<DamageComponent> damages;
+	std::unique_ptr<DestructionComponent> destructions;
 	std::string name;
 
 	bool stagedForDestruction;
+	Scene& scene;
 public:
-	Entity();
+	Entity(Scene& scene);
 	void Update(int dt, Scene& sc);
 
 	std::string& GetName()
@@ -72,26 +76,23 @@ public:
 	{
 		damages = std::move(new_damages);
 	}
+	void SetDestructionComponent(std::unique_ptr<DestructionComponent> new_destructions)
+	{
+		destructions = std::move(new_destructions);
+	}
+
 
 	void Render(Scene& scene, Camera& camera);
 	void Update(Scene& scene, int dt);
 
 	bool IsThrusting();
 
-	void MoveUpwards();
-	void MoveDownwards();
-	void MoveLeftwards();
-	void MoveRightwards();
+	void StartThrusting();
+	void StopThrusting();
+	void StartBoost();
+	void StopBoost();
 
-	void StopMovingUpwards();
-	void StopMovingDownwards();
-	void StopMovingLeftwards();
-	void StopMovingRightwards();
-
-	void Destroy()
-	{
-		stagedForDestruction = true;
-	}
+	void Destroy();
 
 	void OnCollision(Entity& e);
 	void OnDamage(int d);

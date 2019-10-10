@@ -1,58 +1,36 @@
 #include "Entity.hpp"
 
-Entity::Entity() :
-	stagedForDestruction(false)
+Entity::Entity(Scene& scene) :
+	stagedForDestruction(false),
+	scene(scene)
 {
 
 }
 
-void Entity::MoveUpwards()
+void Entity::StartThrusting()
 {
 	this->GetPhysicsComponent().frontThrust = 250.f;
 	graphics->OnMoveEntity(*this);
 }
 
-void Entity::MoveDownwards()
-{
-	this->GetPhysicsComponent().frontThrust = -250.f;
-	graphics->OnMoveEntity(*this);
-}
-
-void Entity::MoveLeftwards()
-{
-	this->GetPhysicsComponent().sideThrust = -250.f;
-	graphics->OnMoveEntity(*this);
-}
-
-void Entity::MoveRightwards()
-{
-	this->GetPhysicsComponent().sideThrust = 250.f;
-	graphics->OnMoveEntity(*this);
-}
-
-void Entity::StopMovingUpwards()
+void Entity::StopThrusting()
 {
 	this->GetPhysicsComponent().frontThrust = 0.f;
 	graphics->OnMoveEntity(*this);
 }
 
-void Entity::StopMovingDownwards()
+void Entity::StartBoost()
 {
-	this->GetPhysicsComponent().frontThrust = 0.f;
+	this->GetPhysicsComponent().frontThrust *= 2.f;
 	graphics->OnMoveEntity(*this);
 }
 
-void Entity::StopMovingLeftwards()
+void Entity::StopBoost()
 {
-	this->GetPhysicsComponent().sideThrust= 0.f;
+	this->GetPhysicsComponent().frontThrust /= 2.f;
 	graphics->OnMoveEntity(*this);
 }
 
-void Entity::StopMovingRightwards()
-{
-	this->GetPhysicsComponent().sideThrust= 0.f;
-	graphics->OnMoveEntity(*this);
-}
 
 void Entity::Render(Scene& scene, Camera& camera)
 {
@@ -71,16 +49,29 @@ bool Entity::IsThrusting()
 
 void Entity::OnCollision(Entity& e)
 {
+  if (collisions) {
 	collisions->OnCollision(*this, e);
-	physics->OnCollision(*this, e);
+  }
+  physics->OnCollision(*this, e);
 }
 
 void Entity::OnDamage(int d)
 {
+  if (damages) {
 	damages->OnDamage(*this, d);
+  }
 }
 
 bool Entity::CollidesWith(Entity& e)
 {
 	return e.GetPhysicsComponent().body.intersects(physics->body);
 }
+
+void Entity::Destroy()
+{
+  stagedForDestruction = true;
+  if (destructions) {
+	destructions->OnDestroy(*this, scene);
+  }
+}
+

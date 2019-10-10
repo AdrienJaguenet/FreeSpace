@@ -26,6 +26,8 @@ public:
 	void SpawnRock(float x, float y);
 	/* spawns a projectile */
 	void ShootProjectile(Entity& from);
+	/* spawns weedium */
+	void SpawnOrangium(float x, float y);
 	void Update(int dt);
 	void Render(Camera& camera);
 	sf::RenderTarget& GetRenderTarget()

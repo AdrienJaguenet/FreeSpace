@@ -9,6 +9,7 @@
 #include "StaticSpriteGraphicsComponent.hpp"
 #include "ProjectileCollisionsComponent.hpp"
 #include "DestructibleDamageComponent.hpp"
+#include "RockDestructionComponent.hpp"
 
 sf::Texture Scene::LoadTexture(const std::string& path)
 {
@@ -30,18 +31,20 @@ Scene::Scene(sf::RenderTarget& window) :
 	textures["ship_player_running"] = LoadTexture("res/ship_player_running.png");
 	textures["projectile1"] = LoadTexture("res/projectile1.png");
 	textures["rock"] = LoadTexture("res/rock.png");
+	textures["orangium"] = LoadTexture("res/orangium.png");
 	sprites["background1"] = sf::Sprite(textures["background1"]);
 	sprites["ship_player"] = sf::Sprite(textures["ship_player"]);
 	sprites["ship_player_running"] = sf::Sprite(textures["ship_player_running"]);
 	sprites["rock"] = sf::Sprite(textures["rock"]);
 	sprites["projectile1"] = sf::Sprite(textures["projectile1"]);
+	sprites["orangium"] = sf::Sprite(textures["orangium"]);
 }
 
 Entity* Scene::SpawnPlayer()
 {
 	std::string entName = "player" + std::to_string(ent_cnt);
-	ents.insert(std::make_pair(entName, Entity()));
-	Entity& e = ents[entName];
+	ents.insert(std::make_pair(entName, Entity(*this)));
+	Entity& e = ents.at(entName);
 	e.SetName(entName);
 	e.SetPhysicsComponent(std::make_unique<LinearPhysicsComponent>());
 	e.SetGraphicsComponent(std::make_unique<ShipSpriteGraphicsComponent>(sprites["ship_player"], sprites["ship_player_running"]));
@@ -50,20 +53,21 @@ Entity* Scene::SpawnPlayer()
 	e.GetPhysicsComponent().body.width = 32.f;
 	e.GetPhysicsComponent().body.height = 32.f;
 	++ ent_cnt;
-	return &(ents[entName]);
+	return &(e);
 }
 
 void Scene::SpawnRock(float x, float y)
 {
 	std::string entName = "rock" + std::to_string(ent_cnt);
-	ents.insert(std::make_pair(entName, Entity()));
-	Entity& e = ents[entName];
+	ents.insert(std::make_pair(entName, Entity(*this)));
+	Entity& e = ents.at(entName);
 	e.SetName(entName);
 	e.SetPhysicsComponent(std::make_unique<ImmobilePhysicsComponent>());
 	e.SetGraphicsComponent(std::make_unique<StaticSpriteGraphicsComponent>( sprites["rock"]));
-	e.GetPhysicsComponent().pos = sf::Vector2f(x, y);
 	e.SetCollisionsComponent(std::make_unique<CollisionsComponent>());
 	e.SetDamageComponent(std::make_unique<DestructibleDamageComponent>(1));
+	e.SetDestructionComponent(std::make_unique<RockDestructionComponent>());
+	e.GetPhysicsComponent().pos = sf::Vector2f(x, y);
 	e.GetPhysicsComponent().body.width = 32.f;
 	e.GetPhysicsComponent().body.height = 32.f;
 	++ ent_cnt;
@@ -72,8 +76,8 @@ void Scene::SpawnRock(float x, float y)
 void Scene::ShootProjectile(Entity& from)
 {
 	std::string entName = "projectile" + std::to_string(ent_cnt);
-	ents.insert(std::make_pair(entName, Entity()));
-	Entity& e = ents[entName];
+	ents.insert(std::make_pair(entName, Entity(*this)));
+	Entity& e = ents.at(entName);
 	e.SetName(entName);
 	e.SetPhysicsComponent(std::make_unique<ProjectilePhysicsComponent>(800));
 	e.SetGraphicsComponent(std::make_unique<StaticSpriteGraphicsComponent>( sprites["projectile1"]));
@@ -85,6 +89,20 @@ void Scene::ShootProjectile(Entity& from)
 	e.GetPhysicsComponent().body.width = 16.f;
 	e.GetPhysicsComponent().body.height = 16.f;
 	++ ent_cnt;
+}
+
+void Scene::SpawnOrangium(float x, float y)
+{
+	std::string entName = "projectile" + std::to_string(ent_cnt);
+	ents.insert(std::make_pair(entName, Entity(*this)));
+	Entity& e = ents.at(entName);
+	e.SetName(entName);
+	e.SetPhysicsComponent(std::make_unique<ImmobilePhysicsComponent>());
+	e.SetGraphicsComponent(std::make_unique<StaticSpriteGraphicsComponent>( sprites["orangium"]));
+	e.GetPhysicsComponent().pos = sf::Vector2f(x, y);
+	e.GetPhysicsComponent().body.width = 16.f;
+	e.GetPhysicsComponent().body.height = 16.f;
+	++ent_cnt;
 }
 
 void Scene::Render(Camera& camera)
