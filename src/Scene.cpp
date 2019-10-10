@@ -8,6 +8,7 @@
 #include "ShipSpriteGraphicsComponent.hpp"
 #include "StaticSpriteGraphicsComponent.hpp"
 #include "ProjectileCollisionsComponent.hpp"
+#include "DestructibleDamageComponent.hpp"
 
 sf::Texture Scene::LoadTexture(const std::string& path)
 {
@@ -45,6 +46,7 @@ Entity* Scene::SpawnPlayer()
 	e.SetPhysicsComponent(std::make_unique<LinearPhysicsComponent>());
 	e.SetGraphicsComponent(std::make_unique<ShipSpriteGraphicsComponent>(sprites["ship_player"], sprites["ship_player_running"]));
 	e.SetCollisionsComponent(std::make_unique<CollisionsComponent>());
+	e.SetDamageComponent(std::make_unique<DamageComponent>());
 	e.GetPhysicsComponent().body.width = 32.f;
 	e.GetPhysicsComponent().body.height = 32.f;
 	++ ent_cnt;
@@ -61,6 +63,7 @@ void Scene::SpawnRock(float x, float y)
 	e.SetGraphicsComponent(std::make_unique<StaticSpriteGraphicsComponent>( sprites["rock"]));
 	e.GetPhysicsComponent().pos = sf::Vector2f(x, y);
 	e.SetCollisionsComponent(std::make_unique<CollisionsComponent>());
+	e.SetDamageComponent(std::make_unique<DestructibleDamageComponent>(1));
 	e.GetPhysicsComponent().body.width = 32.f;
 	e.GetPhysicsComponent().body.height = 32.f;
 	++ ent_cnt;
@@ -75,6 +78,7 @@ void Scene::ShootProjectile(Entity& from)
 	e.SetPhysicsComponent(std::make_unique<ProjectilePhysicsComponent>(800));
 	e.SetGraphicsComponent(std::make_unique<StaticSpriteGraphicsComponent>( sprites["projectile1"]));
 	e.SetCollisionsComponent(std::make_unique<ProjectileCollisionsComponent>(&from, 10));
+	e.SetDamageComponent(std::make_unique<DamageComponent>());
 	e.GetPhysicsComponent().pos = from.GetPhysicsComponent().pos;
 	e.GetPhysicsComponent().yaw = from.GetPhysicsComponent().yaw;
 	e.GetPhysicsComponent().frontThrust = 1000.f;

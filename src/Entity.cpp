@@ -77,9 +77,10 @@ void Entity::OnCollision(Entity& e)
 
 void Entity::OnDamage(int d)
 {
+	damages->OnDamage(*this, d);
 }
 
 bool Entity::CollidesWith(Entity& e)
 {
-	return e.GetPhysicsComponent().body.intersects(physics->body); 
+	return e.GetPhysicsComponent().body.intersects(physics->body);
 }

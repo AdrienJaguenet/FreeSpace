@@ -21,7 +21,8 @@ SRC=\
 	src/ShipSpriteGraphicsComponent.cpp\
 	src/ProjectilePhysicsComponent.cpp\
 	src/ProjectileCollisionsComponent.cpp\
-	src/CollisionsComponent.cpp
+	src/CollisionsComponent.cpp\
+	src/DestructibleDamageComponent.cpp
 
 OBJ=$(SRC:.cpp=.o)
 
