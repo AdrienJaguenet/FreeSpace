@@ -14,16 +14,11 @@ SRC=\
 	src/Game.cpp\
 	src/Main.cpp\
 	src/Space.cpp\
-	src/LinearPhysicsComponent.cpp\
 	src/SpaceInputManager.cpp\
 	src/Entity.cpp\
-	src/StaticSpriteGraphicsComponent.cpp\
-	src/ShipSpriteGraphicsComponent.cpp\
-	src/ProjectilePhysicsComponent.cpp\
-	src/ProjectileCollisionsComponent.cpp\
-	src/CollisionsComponent.cpp\
-	src/DestructibleDamageComponent.cpp\
-	src/RockDestructionComponent.cpp
+	src/GraphicsSystem.cpp\
+	src/PhysicsSystem.cpp\
+	src/InputSystem.cpp
 
 OBJ=$(SRC:.cpp=.o)
 

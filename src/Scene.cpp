@@ -2,15 +2,6 @@
 
 #include <iostream>
 
-#include "ImmobilePhysicsComponent.hpp"
-#include "ProjectilePhysicsComponent.hpp"
-#include "LinearPhysicsComponent.hpp"
-#include "ShipSpriteGraphicsComponent.hpp"
-#include "StaticSpriteGraphicsComponent.hpp"
-#include "ProjectileCollisionsComponent.hpp"
-#include "DestructibleDamageComponent.hpp"
-#include "RockDestructionComponent.hpp"
-
 sf::Texture Scene::LoadTexture(const std::string& path)
 {
 	std::cerr << "Loading '"+path+"'" << std::endl;
@@ -22,8 +13,16 @@ sf::Texture Scene::LoadTexture(const std::string& path)
 }
 
 Scene::Scene(sf::RenderTarget& window) :
+	ent_id(0),
+	ent_count(0),
+	max_ents(1000),
 	window(window),
-	ent_cnt(0)
+	physics(max_ents),
+	healths(max_ents),
+	inputs(max_ents),
+	graphics(max_ents),
+	physicsSystem(*this),
+	inputSystem(*this)
 {
 	textures["background1"] = LoadTexture("res/bg1.jpg");
 	textures["background1"].setRepeated(true);
@@ -40,101 +39,46 @@ Scene::Scene(sf::RenderTarget& window) :
 	sprites["orangium"] = sf::Sprite(textures["orangium"]);
 }
 
-Entity* Scene::SpawnPlayer()
+Entity Scene::NewEntity()
 {
-	std::string entName = "player" + std::to_string(ent_cnt);
-	ents.insert(std::make_pair(entName, Entity(*this)));
-	Entity& e = ents.at(entName);
-	e.SetName(entName);
-	e.SetPhysicsComponent(std::make_unique<LinearPhysicsComponent>());
-	e.SetGraphicsComponent(std::make_unique<ShipSpriteGraphicsComponent>(sprites["ship_player"], sprites["ship_player_running"]));
-	e.SetCollisionsComponent(std::make_unique<CollisionsComponent>());
-	e.SetDamageComponent(std::make_unique<DamageComponent>());
-	e.GetPhysicsComponent().body.width = 32.f;
-	e.GetPhysicsComponent().body.height = 32.f;
-	++ ent_cnt;
-	return &(e);
+  if (ent_count > max_ents) {
+	throw std::runtime_error("Trying to instantiate too many entities");
+  }
+  while (ents.find(ent_id) != ents.end()) {
+	++ent_id;
+	if (ent_id > max_ents - 1) {
+	  ent_id = 0;
+	}
+  }
+  ++ent_count;
+  return ents.insert(ent_id).second;
+}
+
+Entity Scene::SpawnPlayer()
+{
+	Entity e = NewEntity();
+	physics[e] = std::make_unique<PhysicComponent>();
+	return e;
 }
 
 void Scene::SpawnRock(float x, float y)
 {
-	std::string entName = "rock" + std::to_string(ent_cnt);
-	ents.insert(std::make_pair(entName, Entity(*this)));
-	Entity& e = ents.at(entName);
-	e.SetName(entName);
-	e.SetPhysicsComponent(std::make_unique<ImmobilePhysicsComponent>());
-	e.SetGraphicsComponent(std::make_unique<StaticSpriteGraphicsComponent>( sprites["rock"]));
-	e.SetCollisionsComponent(std::make_unique<CollisionsComponent>());
-	e.SetDamageComponent(std::make_unique<DestructibleDamageComponent>(1));
-	e.SetDestructionComponent(std::make_unique<RockDestructionComponent>());
-	e.GetPhysicsComponent().pos = sf::Vector2f(x, y);
-	e.GetPhysicsComponent().body.width = 32.f;
-	e.GetPhysicsComponent().body.height = 32.f;
-	++ ent_cnt;
 }
 
 void Scene::ShootProjectile(Entity& from)
 {
-	std::string entName = "projectile" + std::to_string(ent_cnt);
-	ents.insert(std::make_pair(entName, Entity(*this)));
-	Entity& e = ents.at(entName);
-	e.SetName(entName);
-	e.SetPhysicsComponent(std::make_unique<ProjectilePhysicsComponent>(800));
-	e.SetGraphicsComponent(std::make_unique<StaticSpriteGraphicsComponent>( sprites["projectile1"]));
-	e.SetCollisionsComponent(std::make_unique<ProjectileCollisionsComponent>(&from, 10));
-	e.SetDamageComponent(std::make_unique<DamageComponent>());
-	e.GetPhysicsComponent().pos = from.GetPhysicsComponent().pos;
-	e.GetPhysicsComponent().yaw = from.GetPhysicsComponent().yaw;
-	e.GetPhysicsComponent().frontThrust = 1000.f;
-	e.GetPhysicsComponent().body.width = 16.f;
-	e.GetPhysicsComponent().body.height = 16.f;
-	++ ent_cnt;
 }
 
 void Scene::SpawnOrangium(float x, float y)
 {
-	std::string entName = "projectile" + std::to_string(ent_cnt);
-	ents.insert(std::make_pair(entName, Entity(*this)));
-	Entity& e = ents.at(entName);
-	e.SetName(entName);
-	e.SetPhysicsComponent(std::make_unique<ImmobilePhysicsComponent>());
-	e.SetGraphicsComponent(std::make_unique<StaticSpriteGraphicsComponent>( sprites["orangium"]));
-	e.GetPhysicsComponent().pos = sf::Vector2f(x, y);
-	e.GetPhysicsComponent().body.width = 16.f;
-	e.GetPhysicsComponent().body.height = 16.f;
-	++ent_cnt;
 }
 
 void Scene::Render(Camera& camera)
 {
 	sprites["background1"].setTextureRect(sf::IntRect(camera.x / 5.f, camera.y / 5.f, 1000, 1000));
 	window.draw(sprites["background1"]);
-	for (auto & e : ents) {
-		e.second.Render(*this, camera);
-	}
 }
 void Scene::Update(int dt)
 {
-	for (auto & e : ents) {
-		e.second.Update(*this, dt);
-	}
-	for (auto & e : ents) {
-		for (auto & f : ents) {
-			if (&e != &f) {
-				if (e.second.CollidesWith(f.second)) {
-					e.second.OnCollision(f.second);
-				}
-			}
-		}
-	}
-	auto itr(ents.begin());
-	while (itr != ents.end()) {
-		Entity& e = itr->second;
-		if (e.IsStagedForDestruction()) {
-			itr = ents.erase(itr);
-		} else {
-			++itr;
-		}
-	}
 }
 

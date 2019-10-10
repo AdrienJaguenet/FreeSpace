@@ -24,8 +24,8 @@ void Space::Update(int dt)
 
 void Space::Render()
 {
-	camera.x = player->GetPhysicsComponent().pos.x - window.getSize().x / 2;
-	camera.y = player->GetPhysicsComponent().pos.y - window.getSize().y / 2;
+	camera.x = scene.GetPhysicsComponent(player)->pos.x - window.getSize().x / 2;
+	camera.y = scene.GetPhysicsComponent(player)->pos.y - window.getSize().y / 2;
 	window.clear(sf::Color::Black);
 	scene.Render(camera);
 	RenderHUD();
@@ -35,7 +35,6 @@ void Space::RenderHUD()
 {
 	// C++ bullshit
 	std::ostringstream ss;
-	ss << "X: " << (int)player->GetPhysicsComponent().pos.x << std::endl << "Y: "<< (int)player->GetPhysicsComponent().pos.y;
 
 	std::string str = ss.str();
 

@@ -16,10 +16,10 @@ GameState SpaceInputManager::OnKeyDown(const sf::Event::KeyEvent& e)
 	Entity* player = &(space.GetPlayerEntity());
 	switch (e.code) {
 	case sf::Keyboard::Key::W:
-		player->StartThrusting();
+		space.GetScene().GetInputSystem().StartThrusting();
 		break;
 	case sf::Keyboard::Key::LShift:
-		player->StartBoost();
+		space.GetScene().GetInputSystem().StartBoost();
 		break;
 
 	}
@@ -31,14 +31,14 @@ GameState SpaceInputManager::OnKeyUp(const sf::Event::KeyEvent& e)
 	Entity* player = &(space.GetPlayerEntity());
 	switch (e.code) {
 	case sf::Keyboard::Key::W:
-		player->StopThrusting();
+		space.GetScene().GetInputSystem().StopThrusting();
 		break;
 	case sf::Keyboard::Key::LShift:
-		player->StopBoost();
+		space.GetScene().GetInputSystem().StopBoost();
 		break;
 
 	case sf::Keyboard::Key::Space:
-		space.GetScene().ShootProjectile(*player);
+		space.GetScene().GetInputSystem().Fire();
 		break;
 	}
 
@@ -52,9 +52,6 @@ GameState SpaceInputManager::OnQuit()
 
 GameState SpaceInputManager::OnMouseMoved(const sf::Event::MouseMoveEvent& e)
 {
-	Entity* player = &(space.GetPlayerEntity());
-	float dx = space.GetCamera().x + e.x - player->GetPhysicsComponent().pos.x;
-	float dy = space.GetCamera().y + e.y - player->GetPhysicsComponent().pos.y;
-	player->GetPhysicsComponent().yaw = atan2f(dx, -dy);
+	space.GetScene().GetInputSystem().LookAt(space.GetCamera().x + e.x, space.GetCamera().y + e.y);
 	return GameState::GAME_STATE_RUNNING;
 }

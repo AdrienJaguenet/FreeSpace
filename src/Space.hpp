@@ -16,7 +16,7 @@ private:
 	Camera camera;
 	sf::Font hudFont;
 	sf::Text hudText;
-	Entity* player;
+	Entity player;
 public:
 	Space(sf::RenderWindow& window);
 	int GetRefreshPeriod()
@@ -33,7 +33,7 @@ public:
 	}
 	Entity& GetPlayerEntity()
 	{
-		return *player;
+		return player;
 	}
 	Scene& GetScene()
 	{
