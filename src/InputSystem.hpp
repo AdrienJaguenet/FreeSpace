@@ -4,8 +4,8 @@ class Scene;
 
 class InputSystem
 {
-  Scene& scene;
-  public:
+	Scene& scene;
+public:
 	InputSystem(Scene& scene);
 	void StartThrusting();
 	void StopThrusting();

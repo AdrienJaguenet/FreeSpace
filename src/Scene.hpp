@@ -44,13 +44,28 @@ private:
 	Entity NewEntity();
 public:
 	Scene(sf::RenderTarget& window);
-	
-	std::unique_ptr<PhysicComponent>& GetPhysicsComponent(const Entity& key) { return physics[key]; }
-	std::unique_ptr<GraphicComponent>& GetGraphicsComponent(const Entity& key) { return graphics[key]; }
-	std::unique_ptr<InputComponent>& GetInputComponent(const Entity& key) { return inputs[key]; }
-	InputSystem& GetInputSystem() { return inputSystem; }
+
+	std::unique_ptr<PhysicComponent>& GetPhysicsComponent(const Entity& key)
+	{
+		return physics[key];
+	}
+	std::unique_ptr<GraphicComponent>& GetGraphicsComponent(const Entity& key)
+	{
+		return graphics[key];
+	}
+	std::unique_ptr<InputComponent>& GetInputComponent(const Entity& key)
+	{
+		return inputs[key];
+	}
+	InputSystem& GetInputSystem()
+	{
+		return inputSystem;
+	}
 	Entity SpawnPlayer();
-	std::set<Entity>& GetEntities() { return ents; }
+	std::set<Entity>& GetEntities()
+	{
+		return ents;
+	}
 	void SpawnRock(float x, float y);
 	/* spawns a projectile */
 	void ShootProjectile(Entity& from);

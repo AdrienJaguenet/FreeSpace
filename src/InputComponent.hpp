@@ -1,7 +1,6 @@
 #pragma once
 
-struct InputComponent
-{
-  bool isThrusting {};
+struct InputComponent {
+	bool isThrusting {};
 };
 

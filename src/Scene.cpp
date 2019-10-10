@@ -41,28 +41,41 @@ Scene::Scene(sf::RenderTarget& window) :
 
 Entity Scene::NewEntity()
 {
-  if (ent_count > max_ents) {
-	throw std::runtime_error("Trying to instantiate too many entities");
-  }
-  while (ents.find(ent_id) != ents.end()) {
-	++ent_id;
-	if (ent_id > max_ents - 1) {
-	  ent_id = 0;
+	if (ent_count > max_ents) {
+		throw std::runtime_error("Trying to instantiate too many entities");
 	}
-  }
-  ++ent_count;
-  return ents.insert(ent_id).second;
+	while (ents.find(ent_id) != ents.end()) {
+		++ent_id;
+		if (ent_id > max_ents - 1) {
+			ent_id = 0;
+		}
+	}
+	++ent_count;
+	return *ents.insert(ent_id).first;
 }
 
 Entity Scene::SpawnPlayer()
 {
 	Entity e = NewEntity();
 	physics[e] = std::make_unique<PhysicComponent>();
+	graphics[e] = std::make_unique<GraphicComponent>();
+	graphics[e]->renderingType = GraphicComponent::RenderingType::RENDERING_SHIP;
+	graphics[e]->sprites.push_back(&sprites["ship_player"]);
+	graphics[e]->sprites.push_back(&sprites["ship_player_running"]);
+	inputs[e] = std::make_unique<InputComponent>();
+	std::cerr << "Created entity " << e << std::endl;
 	return e;
 }
 
 void Scene::SpawnRock(float x, float y)
 {
+	Entity e = NewEntity();
+	physics[e] = std::make_unique<PhysicComponent>();
+	graphics[e] = std::make_unique<GraphicComponent>();
+	graphics[e]->renderingType = GraphicComponent::RenderingType::RENDERING_STATIC;
+	graphics[e]->sprites.push_back(&sprites["rock"]);
+	physics[e]->pos.x = x;
+	physics[e]->pos.y = y;
 }
 
 void Scene::ShootProjectile(Entity& from)
@@ -77,8 +90,10 @@ void Scene::Render(Camera& camera)
 {
 	sprites["background1"].setTextureRect(sf::IntRect(camera.x / 5.f, camera.y / 5.f, 1000, 1000));
 	window.draw(sprites["background1"]);
+	graphicsSystem.Render(camera, *this);
 }
 void Scene::Update(int dt)
 {
+	physicsSystem.Update(dt);
 }
 

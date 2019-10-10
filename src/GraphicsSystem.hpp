@@ -5,7 +5,7 @@ class Scene;
 
 class GraphicsSystem
 {
-  public:
+public:
 	void Render(Camera& c, Scene& sc);
 };
 
