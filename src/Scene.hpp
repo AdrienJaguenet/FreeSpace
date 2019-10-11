@@ -12,6 +12,7 @@
 #include "HealthComponent.hpp"
 #include "InputComponent.hpp"
 #include "GraphicComponent.hpp"
+#include "ResourceComponent.hpp"
 
 #include "PhysicsSystem.hpp"
 #include "GraphicsSystem.hpp"
@@ -34,6 +35,7 @@ private:
 	std::vector<std::unique_ptr<HealthComponent>> healths;
 	std::vector<std::unique_ptr<InputComponent>> inputs;
 	std::vector<std::unique_ptr<GraphicComponent>> graphics;
+	std::vector<std::unique_ptr<ResourceComponent>> resources;
 
 
 	PhysicsSystem physicsSystem;
@@ -56,6 +58,10 @@ public:
 	std::unique_ptr<InputComponent>& GetInputComponent(const Entity& key)
 	{
 		return inputs[key];
+	}
+	std::unique_ptr<ResourceComponent>& GetResourceComponent(const Entity& key)
+	{
+		return resources[key];
 	}
 	InputSystem& GetInputSystem()
 	{

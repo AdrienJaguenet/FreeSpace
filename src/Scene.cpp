@@ -72,10 +72,13 @@ void Scene::SpawnRock(float x, float y)
 	Entity e = NewEntity();
 	physics[e] = std::make_unique<PhysicComponent>();
 	graphics[e] = std::make_unique<GraphicComponent>();
+	resources[e] = std::make_unique<ResourceComponent>();
 	graphics[e]->renderingType = GraphicComponent::RenderingType::RENDERING_STATIC;
 	graphics[e]->sprites.push_back(&sprites["rock"]);
 	physics[e]->pos.x = x;
 	physics[e]->pos.y = y;
+	resources[e]->resources["orangium"] = 9999;
+	resources[e]->infinite["orangium"] = true;
 }
 
 void Scene::ShootProjectile(Entity& from)
