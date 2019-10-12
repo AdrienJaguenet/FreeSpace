@@ -16,6 +16,13 @@ private:
 	Camera camera;
 	sf::Font hudFont;
 	sf::Text hudText;
+	sf::Texture uiBackground;
+	sf::Texture uiHorizontalBorder;
+	sf::Texture orangiumIconTexture;
+	sf::Texture greenineIconTexture;
+	sf::Sprite orangiumIcon;
+	sf::Sprite greenineIcon;
+	sf::RectangleShape resourceHudDisplay;
 	Entity player;
 	void RenderHUD();
 public:

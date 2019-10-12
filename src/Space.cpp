@@ -8,13 +8,25 @@
 
 Space::Space(sf::RenderWindow& window) :
 	scene(window),
-	window(window)
+	window(window),
+	resourceHudDisplay(sf::Vector2f(50, 50))
 {
 	hudFont.loadFromFile("res/pixelplay.ttf");
 	hudText.setFont(hudFont);
 	hudText.setCharacterSize(16);
 	hudText.setColor(sf::Color::White);
+	uiBackground.loadFromFile("res/ui_bg.jpg");
+	uiHorizontalBorder.loadFromFile("res/ui_border.jpg");
+	orangiumIconTexture.loadFromFile("res/orangium_icon.png");
+	greenineIconTexture.loadFromFile("res/greenine_icon.png");
+	orangiumIcon.setTexture(orangiumIconTexture);
+	greenineIcon.setTexture(greenineIconTexture);
+	uiBackground.setRepeated(true);
+	uiHorizontalBorder.setRepeated(true);
 
+	resourceHudDisplay.setFillColor(sf::Color::Black);
+	resourceHudDisplay.setOutlineColor(sf::Color::White);
+	resourceHudDisplay.setOutlineThickness(2.f);
 }
 
 void Space::Update(int dt)
@@ -33,21 +45,22 @@ void Space::Render()
 
 void Space::RenderHUD()
 {
-	// C++ bullshit
-	std::ostringstream ss;
-
-	std::string str = ss.str();
-
-	hudText.setString(str);
-	window.draw(hudText);
+	resourceHudDisplay.setPosition(sf::Vector2f(20, window.getSize().y - 114));
+	orangiumIcon.setPosition(sf::Vector2f(29, window.getSize().y - 105));
+	window.draw(resourceHudDisplay);
+	window.draw(orangiumIcon);
+	resourceHudDisplay.setPosition(sf::Vector2f(20, window.getSize().y - 59));
+	greenineIcon.setPosition(sf::Vector2f(29, window.getSize().y - 50));
+	window.draw(resourceHudDisplay);
+	window.draw(greenineIcon);
 }
 
 void Space::Load()
 {
 	player = scene.SpawnPlayer();
 	for (int i(0); i < 5; ++i) {
-		scene.SpawnOrangium(rand() % 6000, rand() % 6000);
-		scene.SpawnGreenine(rand() % 6000, rand() % 6000);
+		scene.SpawnOrangium(rand() % 3000, rand() % 3000);
+		scene.SpawnGreenine(rand() % 3000, rand() % 3000);
 	}
 }
 
