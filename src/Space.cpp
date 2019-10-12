@@ -45,8 +45,9 @@ void Space::RenderHUD()
 void Space::Load()
 {
 	player = scene.SpawnPlayer();
-	for (int i(0); i < 10; ++i) {
-		scene.SpawnRock(rand() % 600, rand() % 600);
+	for (int i(0); i < 5; ++i) {
+		scene.SpawnOrangium(rand() % 6000, rand() % 6000);
+		scene.SpawnGreenine(rand() % 6000, rand() % 6000);
 	}
 }
 

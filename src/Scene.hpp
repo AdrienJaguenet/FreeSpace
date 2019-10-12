@@ -77,6 +77,8 @@ public:
 	void ShootProjectile(Entity& from);
 	/* spawns weedium */
 	void SpawnOrangium(float x, float y);
+	/* spawns greenine */
+	void SpawnGreenine(float x, float y);
 	void Update(int dt);
 	void Render(Camera& camera);
 	sf::RenderTarget& GetRenderTarget()

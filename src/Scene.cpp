@@ -32,12 +32,14 @@ Scene::Scene(sf::RenderTarget& window) :
 	textures["projectile1"] = LoadTexture("res/projectile1.png");
 	textures["rock"] = LoadTexture("res/rock.png");
 	textures["orangium"] = LoadTexture("res/orangium.png");
+	textures["greenine"] = LoadTexture("res/greenine.png");
 	sprites["background1"] = sf::Sprite(textures["background1"]);
 	sprites["ship_player"] = sf::Sprite(textures["ship_player"]);
 	sprites["ship_player_running"] = sf::Sprite(textures["ship_player_running"]);
 	sprites["rock"] = sf::Sprite(textures["rock"]);
 	sprites["projectile1"] = sf::Sprite(textures["projectile1"]);
 	sprites["orangium"] = sf::Sprite(textures["orangium"]);
+	sprites["greenine"] = sf::Sprite(textures["greenine"]);
 }
 
 Entity Scene::NewEntity()
@@ -70,23 +72,38 @@ Entity Scene::SpawnPlayer()
 
 void Scene::SpawnRock(float x, float y)
 {
+}
+
+void Scene::SpawnGreenine(float x, float y)
+{
 	Entity e = NewEntity();
 	physics[e] = std::make_unique<PhysicComponent>();
 	graphics[e] = std::make_unique<GraphicComponent>();
 	resources[e] = std::make_unique<ResourceComponent>();
 	graphics[e]->renderingType = GraphicComponent::RenderingType::RENDERING_STATIC;
-	graphics[e]->sprites.push_back(&sprites["rock"]);
+	graphics[e]->sprites.push_back(&sprites["greenine"]);
+	physics[e]->pos.x = x;
+	physics[e]->pos.y = y;
+	resources[e]->resources["greenine"] = 9999;
+	resources[e]->infinite["greenine"] = true;
+}
+
+void Scene::SpawnOrangium(float x, float y)
+{
+	Entity e = NewEntity();
+	physics[e] = std::make_unique<PhysicComponent>();
+	graphics[e] = std::make_unique<GraphicComponent>();
+	resources[e] = std::make_unique<ResourceComponent>();
+	graphics[e]->renderingType = GraphicComponent::RenderingType::RENDERING_STATIC;
+	graphics[e]->sprites.push_back(&sprites["orangium"]);
 	physics[e]->pos.x = x;
 	physics[e]->pos.y = y;
 	resources[e]->resources["orangium"] = 9999;
 	resources[e]->infinite["orangium"] = true;
 }
 
-void Scene::ShootProjectile(Entity& from)
-{
-}
 
-void Scene::SpawnOrangium(float x, float y)
+void Scene::ShootProjectile(Entity& from)
 {
 }
 
