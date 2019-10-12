@@ -1,3 +1,5 @@
+#include <cmath>
+
 #pragma once
 
 class Scene;
