@@ -20,8 +20,8 @@ Scene::Scene(sf::RenderTarget& window) :
 	physics(max_ents),
 	healths(max_ents),
 	inputs(max_ents),
-	resources(max_ents),
 	graphics(max_ents),
+	resources(max_ents),
 	physicsSystem(*this),
 	inputSystem(*this)
 {
