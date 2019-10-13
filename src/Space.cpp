@@ -1,10 +1,17 @@
 #include "Space.hpp"
 
+#include <algorithm>
 #include <iostream>
 #include <sstream>
 #include <iomanip>
 
 #include <SFML/Graphics.hpp>
+
+template <typename T>
+T clamp(const T& n, const T& lower, const T& upper)
+{
+	return std::max(lower, std::min(n, upper));
+}
 
 Space::Space(sf::RenderWindow& window) :
 	scene(window),
@@ -19,14 +26,20 @@ Space::Space(sf::RenderWindow& window) :
 	uiHorizontalBorder.loadFromFile("res/ui_border.jpg");
 	orangiumIconTexture.loadFromFile("res/orangium_icon.png");
 	greenineIconTexture.loadFromFile("res/greenine_icon.png");
+	playerMiniatureTexture.loadFromFile("res/miniature_green.png");
 	orangiumIcon.setTexture(orangiumIconTexture);
 	greenineIcon.setTexture(greenineIconTexture);
+	playerMiniature.setTexture(playerMiniatureTexture);
 	uiBackground.setRepeated(true);
 	uiHorizontalBorder.setRepeated(true);
 
 	resourceHudDisplay.setFillColor(sf::Color::Black);
 	resourceHudDisplay.setOutlineColor(sf::Color::White);
 	resourceHudDisplay.setOutlineThickness(2.f);
+
+	minimapRectangle.setFillColor(sf::Color(0.f, 0.f, 0.f, 128.f));
+	minimapRectangle.setOutlineColor(sf::Color::White);
+	minimapRectangle.setOutlineThickness(2.f);
 }
 
 void Space::Update(int dt)
@@ -40,6 +53,20 @@ void Space::Render()
 	camera.y = scene.GetPhysicsComponent(player)->pos.y - window.getSize().y / 2;
 	window.clear(sf::Color::Black);
 	scene.Render(camera);
+	RenderHUD();
+}
+
+void Space::RenderMinimap()
+{
+	static int minimapSize(200);
+	int playerX = clamp(0.f, scene.GetPhysicsComponent(player)->pos.x * (float) minimapSize / 3000.f, (float) minimapSize),
+	    playerY = clamp(0.f, scene.GetPhysicsComponent(player)->pos.y * (float) minimapSize / 3000.f, (float) minimapSize);
+	minimapRectangle.setSize(sf::Vector2f(minimapSize, minimapSize));
+	minimapRectangle.setPosition(window.getSize().x - minimapSize - 20, window.getSize().y - minimapSize - 20);
+	playerMiniature.setPosition(sf::Vector2f(window.getSize().x - minimapSize - 20 + playerX, window.getSize().y - minimapSize - 20 + playerY));
+	playerMiniature.setRotation(scene.GetPhysicsComponent(player)->yaw * 180.f / M_PI);
+	window.draw(minimapRectangle);
+	window.draw(playerMiniature);
 }
 
 void Space::RenderHUD()
@@ -58,6 +85,7 @@ void Space::RenderHUD()
 	window.draw(resourceHudDisplay);
 	window.draw(greenineIcon);
 	window.draw(hudText);
+	RenderMinimap();
 }
 
 void Space::Load()

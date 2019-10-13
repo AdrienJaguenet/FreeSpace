@@ -20,9 +20,12 @@ private:
 	sf::Texture uiHorizontalBorder;
 	sf::Texture orangiumIconTexture;
 	sf::Texture greenineIconTexture;
+	sf::Texture playerMiniatureTexture;
+	sf::Sprite playerMiniature;
 	sf::Sprite orangiumIcon;
 	sf::Sprite greenineIcon;
 	sf::RectangleShape resourceHudDisplay;
+	sf::RectangleShape minimapRectangle;
 	Entity player;
 	void RenderHUD();
 	void RenderMinimap();
