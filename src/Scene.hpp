@@ -13,11 +13,13 @@
 #include "InputComponent.hpp"
 #include "GraphicComponent.hpp"
 #include "ResourceComponent.hpp"
+#include "ResourceCollectorComponent.hpp"
 
 #include "PhysicsSystem.hpp"
 #include "GraphicsSystem.hpp"
 #include "InputSystem.hpp"
 #include "HealthSystem.hpp"
+#include "ResourceCollectSystem.hpp"
 
 class Scene
 {
@@ -36,12 +38,14 @@ private:
 	std::vector<std::unique_ptr<InputComponent>> inputs;
 	std::vector<std::unique_ptr<GraphicComponent>> graphics;
 	std::vector<std::unique_ptr<ResourceComponent>> resources;
+	std::vector<std::unique_ptr<ResourceCollectorComponent>> collectors;
 
 
 	PhysicsSystem physicsSystem;
 	GraphicsSystem graphicsSystem;
 	InputSystem inputSystem;
 	HealthSystem healthSystem;
+	ResourceCollectSystem collectSystem;
 
 	Entity NewEntity();
 public:
@@ -63,6 +67,11 @@ public:
 	{
 		return resources[key];
 	}
+	std::unique_ptr<ResourceCollectorComponent>& GetResourceCollectorComponent(const Entity& key)
+	{
+		return collectors[key];
+	}
+
 	InputSystem& GetInputSystem()
 	{
 		return inputSystem;

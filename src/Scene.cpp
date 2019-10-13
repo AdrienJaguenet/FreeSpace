@@ -22,8 +22,10 @@ Scene::Scene(sf::RenderTarget& window) :
 	inputs(max_ents),
 	graphics(max_ents),
 	resources(max_ents),
+	collectors(max_ents),
 	physicsSystem(*this),
-	inputSystem(*this)
+	inputSystem(*this),
+	collectSystem(*this)
 {
 	graphicsSystem.ToggleDebug(true);
 	textures["background1"] = LoadTexture("res/bg1.jpg");
@@ -63,10 +65,14 @@ Entity Scene::SpawnPlayer()
 	Entity e = NewEntity();
 	physics[e] = std::make_unique<PhysicComponent>();
 	graphics[e] = std::make_unique<GraphicComponent>();
+	collectors[e] = std::make_unique<ResourceCollectorComponent>();
 	graphics[e]->renderingType = GraphicComponent::RenderingType::RENDERING_SHIP;
 	graphics[e]->sprites.push_back(&sprites["ship_player"]);
 	graphics[e]->sprites.push_back(&sprites["ship_player_running"]);
 	physics[e]->radius = 32.f;
+	collectors[e]->reserves["orangium"] = 0;
+	collectors[e]->reserves["greenine"] = 0;
+	collectors[e]->factor = 1;
 	inputs[e] = std::make_unique<InputComponent>();
 	std::cerr << "Created entity " << e << std::endl;
 	return e;
@@ -89,6 +95,7 @@ void Scene::SpawnGreenine(float x, float y)
 	physics[e]->radius = 64.f;
 	resources[e]->resources["greenine"] = 9999;
 	resources[e]->infinite["greenine"] = true;
+	resources[e]->factor = 1;
 }
 
 void Scene::SpawnOrangium(float x, float y)
@@ -104,6 +111,7 @@ void Scene::SpawnOrangium(float x, float y)
 	physics[e]->radius = 64.f;
 	resources[e]->resources["orangium"] = 9999;
 	resources[e]->infinite["orangium"] = true;
+	resources[e]->factor = 1;
 }
 
 
@@ -120,10 +128,10 @@ void Scene::Render(Camera& camera)
 void Scene::Update(int dt)
 {
 	physicsSystem.Update(dt);
-	for (auto& e : ents) {
+	for (auto e : ents) {
 		bool collides(false);
-		for (auto& f : ents) {
-			if (&e != &f) {
+		for (auto f : ents) {
+			if (e != f) {
 				if (physics[e] && physics[f]) {
 					auto distvec = physics[e]->pos - physics[f]->pos;
 					float sqdist = (distvec.x * distvec.x) + (distvec.y * distvec.y);
@@ -132,6 +140,7 @@ void Scene::Update(int dt)
 						/* trigger collision */
 						/* for debug purposes */
 						collides = true;
+						collectSystem.OnCollide(e, f);
 					}
 				}
 			}

@@ -13,7 +13,7 @@ Space::Space(sf::RenderWindow& window) :
 {
 	hudFont.loadFromFile("res/pixelplay.ttf");
 	hudText.setFont(hudFont);
-	hudText.setCharacterSize(16);
+	hudText.setCharacterSize(24);
 	hudText.setColor(sf::Color::White);
 	uiBackground.loadFromFile("res/ui_bg.jpg");
 	uiHorizontalBorder.loadFromFile("res/ui_border.jpg");
@@ -40,19 +40,24 @@ void Space::Render()
 	camera.y = scene.GetPhysicsComponent(player)->pos.y - window.getSize().y / 2;
 	window.clear(sf::Color::Black);
 	scene.Render(camera);
-	RenderHUD();
 }
 
 void Space::RenderHUD()
 {
 	resourceHudDisplay.setPosition(sf::Vector2f(20, window.getSize().y - 114));
 	orangiumIcon.setPosition(sf::Vector2f(29, window.getSize().y - 105));
+	hudText.setString(std::to_string(scene.GetResourceCollectorComponent(player)->reserves["orangium"]));
+	hudText.setPosition(sf::Vector2f(85, window.getSize().y - 105));
 	window.draw(resourceHudDisplay);
 	window.draw(orangiumIcon);
+	window.draw(hudText);
 	resourceHudDisplay.setPosition(sf::Vector2f(20, window.getSize().y - 59));
 	greenineIcon.setPosition(sf::Vector2f(29, window.getSize().y - 50));
+	hudText.setPosition(sf::Vector2f(85, window.getSize().y - 50));
+	hudText.setString(std::to_string(scene.GetResourceCollectorComponent(player)->reserves["greenine"]));
 	window.draw(resourceHudDisplay);
 	window.draw(greenineIcon);
+	window.draw(hudText);
 }
 
 void Space::Load()

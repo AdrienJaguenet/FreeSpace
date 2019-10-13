@@ -25,6 +25,7 @@ private:
 	sf::RectangleShape resourceHudDisplay;
 	Entity player;
 	void RenderHUD();
+	void RenderMinimap();
 public:
 	Space(sf::RenderWindow& window);
 	int GetRefreshPeriod()
