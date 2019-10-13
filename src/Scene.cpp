@@ -25,6 +25,7 @@ Scene::Scene(sf::RenderTarget& window) :
 	physicsSystem(*this),
 	inputSystem(*this)
 {
+	graphicsSystem.ToggleDebug(true);
 	textures["background1"] = LoadTexture("res/bg1.jpg");
 	textures["background1"].setRepeated(true);
 	textures["ship_player"] = LoadTexture("res/ship_player.png");
@@ -65,6 +66,7 @@ Entity Scene::SpawnPlayer()
 	graphics[e]->renderingType = GraphicComponent::RenderingType::RENDERING_SHIP;
 	graphics[e]->sprites.push_back(&sprites["ship_player"]);
 	graphics[e]->sprites.push_back(&sprites["ship_player_running"]);
+	physics[e]->radius = 32.f;
 	inputs[e] = std::make_unique<InputComponent>();
 	std::cerr << "Created entity " << e << std::endl;
 	return e;
@@ -84,6 +86,7 @@ void Scene::SpawnGreenine(float x, float y)
 	graphics[e]->sprites.push_back(&sprites["greenine"]);
 	physics[e]->pos.x = x;
 	physics[e]->pos.y = y;
+	physics[e]->radius = 64.f;
 	resources[e]->resources["greenine"] = 9999;
 	resources[e]->infinite["greenine"] = true;
 }
@@ -98,6 +101,7 @@ void Scene::SpawnOrangium(float x, float y)
 	graphics[e]->sprites.push_back(&sprites["orangium"]);
 	physics[e]->pos.x = x;
 	physics[e]->pos.y = y;
+	physics[e]->radius = 64.f;
 	resources[e]->resources["orangium"] = 9999;
 	resources[e]->infinite["orangium"] = true;
 }
@@ -116,5 +120,23 @@ void Scene::Render(Camera& camera)
 void Scene::Update(int dt)
 {
 	physicsSystem.Update(dt);
+	for (auto& e : ents) {
+		bool collides(false);
+		for (auto& f : ents) {
+			if (&e != &f) {
+				if (physics[e] && physics[f]) {
+					auto distvec = physics[e]->pos - physics[f]->pos;
+					float sqdist = (distvec.x * distvec.x) + (distvec.y * distvec.y);
+					float radiusSum = physics[e]->radius + physics[f]->radius;
+					if (sqdist <= (radiusSum) * (radiusSum)) {
+						/* trigger collision */
+						/* for debug purposes */
+						collides = true;
+					}
+				}
+			}
+		}
+		physics[e]->isColliding = collides;
+	}
 }
 
