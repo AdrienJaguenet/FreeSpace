@@ -77,7 +77,7 @@ public:
 	{
 		return collectors[key];
 	}
-	std::unique_ptr<AIComponent>& GetAIComponent(const Entity& key) 
+	std::unique_ptr<AIComponent>& GetAIComponent(const Entity& key)
 	{
 		return ais[key];
 	}

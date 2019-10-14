@@ -4,10 +4,10 @@ class Scene;
 
 class AISystem
 {
-  private:	
-  Scene& sc;
-  public:
-  AISystem(Scene& sc) : sc(sc) {}
-  void Update(int dt);
+private:
+	Scene& sc;
+public:
+	AISystem(Scene& sc) : sc(sc) {}
+	void Update(int dt);
 };
 

@@ -1,6 +1,6 @@
 #pragma once
 
 struct TeamComponent {
-  int id;
+	int id;
 };
 
