@@ -1,5 +1,3 @@
-RM=rm
-
 CXX=g++
 CXXOPTIONS=--std=c++17 -g
 INCLUDEDIRS=
@@ -23,20 +21,19 @@ SRC=\
 	src/AISystem.cpp
 
 OBJ=$(SRC:.cpp=.o)
-DEP = $(SRC:.cpp=.d)
+DEP=$(SRC:.cpp=.d)
 
 all: $(TARGET)
-
-%.o: %.cpp
-	$(CXX) -MMD -c $^ -o $@ $(CXXOPTIONS) $(INCLUDEDIRS)
 
 $(TARGET): $(OBJ)
 	$(LD) $^ -o $@ $(LDOPTIONS) $(LDLIBS)
 
-
-.PHONY: clean
+.PHONY: all clean
 
 clean:
 	$(RM) src/*.o src/*.d $(TARGET)
 
 -include $(DEP)
+
+%.o: %.cpp Makefile
+	$(CXX) $(CXXOPTIONS) $(INCLUDEDIRS) -MMD -MP -c $< -o $@
