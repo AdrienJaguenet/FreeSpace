@@ -26,9 +26,11 @@ private:
 	sf::Sprite greenineIcon;
 	sf::RectangleShape resourceHudDisplay;
 	sf::RectangleShape minimapRectangle;
+	sf::RectangleShape healthRectangle;
 	Entity player;
 	void RenderHUD();
 	void RenderMinimap();
+	void RenderHealthBar();
 public:
 	Space(sf::RenderWindow& window);
 	int GetRefreshPeriod()

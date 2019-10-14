@@ -85,6 +85,10 @@ public:
 	{
 		return teams[key];
 	}
+	std::unique_ptr<HealthComponent>& GetHealthComponent(const Entity& key)
+	{
+		return healths[key];
+	}
 
 	InputSystem& GetInputSystem()
 	{

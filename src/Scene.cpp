@@ -74,6 +74,7 @@ Entity Scene::SpawnPlayer()
 	graphics[e] = std::make_unique<GraphicComponent>();
 	collectors[e] = std::make_unique<ResourceCollectorComponent>();
 	teams[e] = std::make_unique<TeamComponent>();
+	healths[e] = std::make_unique<HealthComponent>();
 	graphics[e]->renderingType = GraphicComponent::RenderingType::RENDERING_SHIP;
 	graphics[e]->sprites.push_back(&sprites["ship_player"]);
 	graphics[e]->sprites.push_back(&sprites["ship_player_running"]);
@@ -82,6 +83,8 @@ Entity Scene::SpawnPlayer()
 	collectors[e]->reserves["greenine"] = 0;
 	collectors[e]->factor = 1;
 	teams[e]->id = 0;
+	healths[e]->hp = 50;
+	healths[e]->maxHp = 50;
 	inputs[e] = std::make_unique<InputComponent>();
 	std::cerr << "Created entity " << e << std::endl;
 	return e;
@@ -130,6 +133,7 @@ void Scene::SpawnPirate(float x, float y)
 	graphics[e] = std::make_unique<GraphicComponent>();
 	teams[e] = std::make_unique<TeamComponent>();
 	ais[e] = std::make_unique<AIComponent>();
+	healths[e] = std::make_unique<HealthComponent>();
 	graphics[e]->renderingType = GraphicComponent::RenderingType::RENDERING_SHIP;
 	graphics[e]->sprites.push_back(&sprites["monster_pirate"]);
 	graphics[e]->sprites.push_back(&sprites["monster_pirate_thrusting"]);
@@ -141,6 +145,8 @@ void Scene::SpawnPirate(float x, float y)
 	ais[e]->runningSpeed = 150.f;
 	ais[e]->yawChangingRate = 1.f;
 	ais[e]->minTargetDistance = 200.f;
+	healths[e]->hp = 25;
+	healths[e]->maxHp = 25;
 }
 
 

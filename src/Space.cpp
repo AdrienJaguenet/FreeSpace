@@ -16,7 +16,8 @@ T clamp(const T& n, const T& lower, const T& upper)
 Space::Space(sf::RenderWindow& window) :
 	scene(window),
 	window(window),
-	resourceHudDisplay(sf::Vector2f(50, 50))
+	resourceHudDisplay(sf::Vector2f(50, 50)),
+	healthRectangle(sf::Vector2f(25, 200))
 {
 	hudFont.loadFromFile("res/pixelplay.ttf");
 	hudText.setFont(hudFont);
@@ -40,6 +41,8 @@ Space::Space(sf::RenderWindow& window) :
 	minimapRectangle.setFillColor(sf::Color(0.f, 0.f, 0.f, 128.f));
 	minimapRectangle.setOutlineColor(sf::Color::White);
 	minimapRectangle.setOutlineThickness(2.f);
+
+	healthRectangle.setFillColor(sf::Color::Green);
 }
 
 void Space::Update(int dt)
@@ -69,6 +72,19 @@ void Space::RenderMinimap()
 	window.draw(playerMiniature);
 }
 
+void Space::RenderHealthBar()
+{
+	static int healthBarSize(300), healthBarHeight(25);
+	healthRectangle.setPosition(sf::Vector2f(200, window.getSize().y - 50));
+	float playerHealthProportion = (float) scene.GetHealthComponent(player)->hp / (float) scene.GetHealthComponent(player)->maxHp;
+	healthRectangle.setFillColor(sf::Color::Black);
+	healthRectangle.setSize(sf::Vector2f(healthBarSize, healthBarHeight));
+	window.draw(healthRectangle);
+	healthRectangle.setFillColor(sf::Color::Green);
+	healthRectangle.setSize(sf::Vector2f(healthBarSize * playerHealthProportion, healthBarHeight));
+	window.draw(healthRectangle);
+}
+
 void Space::RenderHUD()
 {
 	resourceHudDisplay.setPosition(sf::Vector2f(20, window.getSize().y - 114));
@@ -86,6 +102,7 @@ void Space::RenderHUD()
 	window.draw(greenineIcon);
 	window.draw(hudText);
 	RenderMinimap();
+	RenderHealthBar();
 }
 
 void Space::Load()

@@ -18,9 +18,11 @@ void AISystem::Update(int dt)
 					if (team_id_this != team_id_other) {
 						sf::Vector2f diffVec = pc_this.pos - pc_other.pos;
 						float sqdist = diffVec.x * diffVec.x + diffVec.y * diffVec.y;
-						if (sqdist <= ai.targetThreshold * ai.targetThreshold and sqdist > ai.minTargetDistance * ai.minTargetDistance) {
+						if (sqdist <= ai.targetThreshold * ai.targetThreshold) {
 							float required_yaw = atan2f(-diffVec.x, diffVec.y);
-							targeting = true;
+							if (sqdist > ai.minTargetDistance * ai.minTargetDistance) {
+								targeting = true;
+							}
 							if (required_yaw > pc_this.yaw) {
 								pc_this.yaw = std::min(required_yaw + ai.yawChangingRate * dt_f, required_yaw);
 							} else if (required_yaw < pc_this.yaw) {
