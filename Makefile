@@ -23,11 +23,12 @@ SRC=\
 	src/AISystem.cpp
 
 OBJ=$(SRC:.cpp=.o)
+DEP = $(SRC:.cpp=.d)
 
 all: $(TARGET)
 
 %.o: %.cpp
-	$(CXX) -c $^ -o $@ $(CXXOPTIONS) $(INCLUDEDIRS)
+	$(CXX) -MMD -c $^ -o $@ $(CXXOPTIONS) $(INCLUDEDIRS)
 
 $(TARGET): $(OBJ)
 	$(LD) $^ -o $@ $(LDOPTIONS) $(LDLIBS)
@@ -36,5 +37,6 @@ $(TARGET): $(OBJ)
 .PHONY: clean
 
 clean:
-	$(RM) $(TARGET) $(OBJ)
+	$(RM) src/*.o src/*.d $(TARGET)
 
+-include $(DEP)
