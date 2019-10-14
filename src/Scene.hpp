@@ -14,12 +14,15 @@
 #include "GraphicComponent.hpp"
 #include "ResourceComponent.hpp"
 #include "ResourceCollectorComponent.hpp"
+#include "AIComponent.hpp"
+#include "TeamComponent.hpp"
 
 #include "PhysicsSystem.hpp"
 #include "GraphicsSystem.hpp"
 #include "InputSystem.hpp"
 #include "HealthSystem.hpp"
 #include "ResourceCollectSystem.hpp"
+#include "AISystem.hpp"
 
 class Scene
 {
@@ -39,6 +42,8 @@ private:
 	std::vector<std::unique_ptr<GraphicComponent>> graphics;
 	std::vector<std::unique_ptr<ResourceComponent>> resources;
 	std::vector<std::unique_ptr<ResourceCollectorComponent>> collectors;
+	std::vector<std::unique_ptr<AIComponent>> ais;
+	std::vector<std::unique_ptr<TeamComponent>> teams;
 
 
 	PhysicsSystem physicsSystem;
@@ -46,6 +51,7 @@ private:
 	InputSystem inputSystem;
 	HealthSystem healthSystem;
 	ResourceCollectSystem collectSystem;
+	AISystem aiSystem;
 
 	Entity NewEntity();
 public:
@@ -71,6 +77,14 @@ public:
 	{
 		return collectors[key];
 	}
+	std::unique_ptr<AIComponent>& GetAIComponent(const Entity& key) 
+	{
+		return ais[key];
+	}
+	std::unique_ptr<TeamComponent>& GetTeamComponent(const Entity& key)
+	{
+		return teams[key];
+	}
 
 	InputSystem& GetInputSystem()
 	{
@@ -88,6 +102,7 @@ public:
 	void SpawnOrangium(float x, float y);
 	/* spawns greenine */
 	void SpawnGreenine(float x, float y);
+	void SpawnPirate(float x, float y);
 	void Update(int dt);
 	void Render(Camera& camera);
 	sf::RenderTarget& GetRenderTarget()

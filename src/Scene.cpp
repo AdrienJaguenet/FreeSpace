@@ -23,9 +23,12 @@ Scene::Scene(sf::RenderTarget& window) :
 	graphics(max_ents),
 	resources(max_ents),
 	collectors(max_ents),
+	ais(max_ents),
+	teams(max_ents),
 	physicsSystem(*this),
 	inputSystem(*this),
-	collectSystem(*this)
+	collectSystem(*this),
+	aiSystem(*this)
 {
 	graphicsSystem.ToggleDebug(true);
 	textures["background1"] = LoadTexture("res/bg1.jpg");
@@ -36,6 +39,8 @@ Scene::Scene(sf::RenderTarget& window) :
 	textures["rock"] = LoadTexture("res/rock.png");
 	textures["orangium"] = LoadTexture("res/orangium.png");
 	textures["greenine"] = LoadTexture("res/greenine.png");
+	textures["monster_pirate"] = LoadTexture("res/monster_pirate.png");
+	textures["monster_pirate_thrusting"] = LoadTexture("res/monster_pirate_thrusting.png");
 	sprites["background1"] = sf::Sprite(textures["background1"]);
 	sprites["ship_player"] = sf::Sprite(textures["ship_player"]);
 	sprites["ship_player_running"] = sf::Sprite(textures["ship_player_running"]);
@@ -43,6 +48,8 @@ Scene::Scene(sf::RenderTarget& window) :
 	sprites["projectile1"] = sf::Sprite(textures["projectile1"]);
 	sprites["orangium"] = sf::Sprite(textures["orangium"]);
 	sprites["greenine"] = sf::Sprite(textures["greenine"]);
+	sprites["monster_pirate"] = sf::Sprite(textures["monster_pirate"]);
+	sprites["monster_pirate_thrusting"] = sf::Sprite(textures["monster_pirate_thrusting"]);
 }
 
 Entity Scene::NewEntity()
@@ -66,6 +73,7 @@ Entity Scene::SpawnPlayer()
 	physics[e] = std::make_unique<PhysicComponent>();
 	graphics[e] = std::make_unique<GraphicComponent>();
 	collectors[e] = std::make_unique<ResourceCollectorComponent>();
+	teams[e] = std::make_unique<TeamComponent>();
 	graphics[e]->renderingType = GraphicComponent::RenderingType::RENDERING_SHIP;
 	graphics[e]->sprites.push_back(&sprites["ship_player"]);
 	graphics[e]->sprites.push_back(&sprites["ship_player_running"]);
@@ -73,6 +81,7 @@ Entity Scene::SpawnPlayer()
 	collectors[e]->reserves["orangium"] = 0;
 	collectors[e]->reserves["greenine"] = 0;
 	collectors[e]->factor = 1;
+	teams[e]->id = 0;
 	inputs[e] = std::make_unique<InputComponent>();
 	std::cerr << "Created entity " << e << std::endl;
 	return e;
@@ -114,6 +123,26 @@ void Scene::SpawnOrangium(float x, float y)
 	resources[e]->factor = 1;
 }
 
+void Scene::SpawnPirate(float x, float y)
+{
+	Entity e = NewEntity();
+	physics[e] = std::make_unique<PhysicComponent>();
+	graphics[e] = std::make_unique<GraphicComponent>();
+	teams[e] = std::make_unique<TeamComponent>();
+	ais[e] = std::make_unique<AIComponent>();
+	graphics[e]->renderingType = GraphicComponent::RenderingType::RENDERING_SHIP;
+	graphics[e]->sprites.push_back(&sprites["monster_pirate"]);
+	graphics[e]->sprites.push_back(&sprites["monster_pirate_thrusting"]);
+	physics[e]->pos.x = x;
+	physics[e]->pos.y = y;
+	physics[e]->radius = 32.f;
+	teams[e]->id = 1;
+	ais[e]->targetThreshold = 1000.f;
+	ais[e]->runningSpeed = 150.f;
+	ais[e]->yawChangingRate = 1.f;
+	ais[e]->minTargetDistance = 200.f;
+}
+
 
 void Scene::ShootProjectile(Entity& from)
 {
@@ -128,6 +157,7 @@ void Scene::Render(Camera& camera)
 void Scene::Update(int dt)
 {
 	physicsSystem.Update(dt);
+	aiSystem.Update(dt);
 	for (auto e : ents) {
 		bool collides(false);
 		for (auto f : ents) {

@@ -19,7 +19,8 @@ SRC=\
 	src/GraphicsSystem.cpp\
 	src/PhysicsSystem.cpp\
 	src/InputSystem.cpp\
-	src/ResourceCollectSystem.cpp
+	src/ResourceCollectSystem.cpp\
+	src/AISystem.cpp
 
 OBJ=$(SRC:.cpp=.o)
 

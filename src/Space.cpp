@@ -94,6 +94,7 @@ void Space::Load()
 	for (int i(0); i < 5; ++i) {
 		scene.SpawnOrangium(rand() % 3000, rand() % 3000);
 		scene.SpawnGreenine(rand() % 3000, rand() % 3000);
+		scene.SpawnPirate(rand() % 3000, rand() % 3000);
 	}
 }
 
