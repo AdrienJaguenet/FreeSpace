@@ -20,23 +20,26 @@ SRC=\
 	src/PhysicsSystem.cpp\
 	src/InputSystem.cpp\
 	src/ResourceCollectSystem.cpp\
-	src/AISystem.cpp
-
+	src/AISystem.cpp\
+	src/WeaponSystem.cpp\
+	src/ProjectileSystem.cpp
 OBJ=$(SRC:.cpp=.o)
-DEP = $(SRC:.cpp=.d)
 
 all: $(TARGET)
 
-%.o: %.cpp
-	$(CXX) -MMD -c $^ -o $@ $(CXXOPTIONS) $(INCLUDEDIRS)
-
 $(TARGET): $(OBJ)
 	$(LD) $^ -o $@ $(LDOPTIONS) $(LDLIBS)
+
+-include $(OBJ:.o=.d)
+
+%.o: %.cpp
+	$(CXX) -c $(CXXOPTIONS) $(INCLUDEDIRS) $*.cpp -o $*.o
+	$(CXX) -MM $(CXXOPTIONS) $(INCLUDEDIRS) $*.cpp > $*.d
+
 
 
 .PHONY: clean
 
 clean:
-	$(RM) src/*.o src/*.d $(TARGET)
+	$(RM) -f src/*.o src/*.d $(TARGET)
 
--include $(DEP)

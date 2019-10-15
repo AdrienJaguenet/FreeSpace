@@ -47,16 +47,23 @@ Space::Space(sf::RenderWindow& window) :
 
 void Space::Update(int dt)
 {
+	if (scene.GetEntities().find(player) == scene.GetEntities().end()) {
+		player = scene.SpawnPlayer();
+	}
 	scene.Update(dt);
 }
 
 void Space::Render()
 {
-	camera.x = scene.GetPhysicsComponent(player)->pos.x - window.getSize().x / 2;
-	camera.y = scene.GetPhysicsComponent(player)->pos.y - window.getSize().y / 2;
+	if (scene.GetEntities().find(player) != scene.GetEntities().end()) {
+		camera.x = scene.GetPhysicsComponent(player)->pos.x - window.getSize().x / 2;
+		camera.y = scene.GetPhysicsComponent(player)->pos.y - window.getSize().y / 2;
+	}
 	window.clear(sf::Color::Black);
 	scene.Render(camera);
-	RenderHUD();
+	if (scene.GetEntities().find(player) != scene.GetEntities().end()) {
+		RenderHUD();
+	}
 }
 
 void Space::RenderMinimap()

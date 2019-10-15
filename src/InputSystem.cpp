@@ -57,5 +57,10 @@ void InputSystem::LookAt(float x, float y)
 
 void InputSystem::Fire()
 {
+	for (auto& e : scene.GetEntities()) {
+		if (scene.GetInputComponent(e)) {
+			scene.FireWeapon(e);
+		}
+	}
 }
 

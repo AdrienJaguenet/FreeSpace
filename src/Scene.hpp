@@ -16,6 +16,8 @@
 #include "ResourceCollectorComponent.hpp"
 #include "AIComponent.hpp"
 #include "TeamComponent.hpp"
+#include "WeaponComponent.hpp"
+#include "ProjectileComponent.hpp"
 
 #include "PhysicsSystem.hpp"
 #include "GraphicsSystem.hpp"
@@ -23,6 +25,8 @@
 #include "HealthSystem.hpp"
 #include "ResourceCollectSystem.hpp"
 #include "AISystem.hpp"
+#include "WeaponSystem.hpp"
+#include "ProjectileSystem.hpp"
 
 class Scene
 {
@@ -44,6 +48,10 @@ private:
 	std::vector<std::unique_ptr<ResourceCollectorComponent>> collectors;
 	std::vector<std::unique_ptr<AIComponent>> ais;
 	std::vector<std::unique_ptr<TeamComponent>> teams;
+	std::vector<std::unique_ptr<WeaponComponent>> weapons;
+	std::vector<std::unique_ptr<ProjectileComponent>> projectiles;
+
+	std::vector<Entity> toDelete;
 
 
 	PhysicsSystem physicsSystem;
@@ -52,6 +60,8 @@ private:
 	HealthSystem healthSystem;
 	ResourceCollectSystem collectSystem;
 	AISystem aiSystem;
+	WeaponSystem weaponSystem;
+	ProjectileSystem projectileSystem;
 
 	Entity NewEntity();
 public:
@@ -89,6 +99,14 @@ public:
 	{
 		return healths[key];
 	}
+	std::unique_ptr<WeaponComponent>& GetWeaponComponent(const Entity& key)
+	{
+		return weapons[key];
+	}
+	std::unique_ptr<ProjectileComponent>& GetProjectileComponent(const Entity& key)
+	{
+		return projectiles[key];
+	}
 
 	InputSystem& GetInputSystem()
 	{
@@ -100,13 +118,15 @@ public:
 		return ents;
 	}
 	void SpawnRock(float x, float y);
-	/* spawns a projectile */
-	void ShootProjectile(Entity& from);
 	/* spawns weedium */
 	void SpawnOrangium(float x, float y);
 	/* spawns greenine */
 	void SpawnGreenine(float x, float y);
 	void SpawnPirate(float x, float y);
+	void SpawnProjectile(float x, float y, float yaw, float speed, int dmg,  float ttl, const Entity& from);
+	void KillEntity(const Entity& e);
+
+	void FireWeapon(const Entity& e);
 	void Update(int dt);
 	void Render(Camera& camera);
 	sf::RenderTarget& GetRenderTarget()

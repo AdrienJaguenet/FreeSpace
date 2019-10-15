@@ -25,10 +25,14 @@ Scene::Scene(sf::RenderTarget& window) :
 	collectors(max_ents),
 	ais(max_ents),
 	teams(max_ents),
+	weapons(max_ents),
+	projectiles(max_ents),
 	physicsSystem(*this),
 	inputSystem(*this),
 	collectSystem(*this),
-	aiSystem(*this)
+	aiSystem(*this),
+	weaponSystem(*this),
+	projectileSystem(*this)
 {
 	graphicsSystem.ToggleDebug(true);
 	textures["background1"] = LoadTexture("res/bg1.jpg");
@@ -41,6 +45,7 @@ Scene::Scene(sf::RenderTarget& window) :
 	textures["greenine"] = LoadTexture("res/greenine.png");
 	textures["monster_pirate"] = LoadTexture("res/monster_pirate.png");
 	textures["monster_pirate_thrusting"] = LoadTexture("res/monster_pirate_thrusting.png");
+	textures["laser_red"] = LoadTexture("res/laser_red.png");
 	sprites["background1"] = sf::Sprite(textures["background1"]);
 	sprites["ship_player"] = sf::Sprite(textures["ship_player"]);
 	sprites["ship_player_running"] = sf::Sprite(textures["ship_player_running"]);
@@ -50,6 +55,7 @@ Scene::Scene(sf::RenderTarget& window) :
 	sprites["greenine"] = sf::Sprite(textures["greenine"]);
 	sprites["monster_pirate"] = sf::Sprite(textures["monster_pirate"]);
 	sprites["monster_pirate_thrusting"] = sf::Sprite(textures["monster_pirate_thrusting"]);
+	sprites["laser_red"] = sf::Sprite(textures["laser_red"]);
 }
 
 Entity Scene::NewEntity()
@@ -75,6 +81,7 @@ Entity Scene::SpawnPlayer()
 	collectors[e] = std::make_unique<ResourceCollectorComponent>();
 	teams[e] = std::make_unique<TeamComponent>();
 	healths[e] = std::make_unique<HealthComponent>();
+	weapons[e] = std::make_unique<WeaponComponent>();
 	graphics[e]->renderingType = GraphicComponent::RenderingType::RENDERING_SHIP;
 	graphics[e]->sprites.push_back(&sprites["ship_player"]);
 	graphics[e]->sprites.push_back(&sprites["ship_player_running"]);
@@ -86,6 +93,7 @@ Entity Scene::SpawnPlayer()
 	healths[e]->hp = 50;
 	healths[e]->maxHp = 50;
 	inputs[e] = std::make_unique<InputComponent>();
+	weapons[e] = std::make_unique<WeaponComponent>();
 	std::cerr << "Created entity " << e << std::endl;
 	return e;
 }
@@ -134,6 +142,7 @@ void Scene::SpawnPirate(float x, float y)
 	teams[e] = std::make_unique<TeamComponent>();
 	ais[e] = std::make_unique<AIComponent>();
 	healths[e] = std::make_unique<HealthComponent>();
+	weapons[e] = std::make_unique<WeaponComponent>();
 	graphics[e]->renderingType = GraphicComponent::RenderingType::RENDERING_SHIP;
 	graphics[e]->sprites.push_back(&sprites["monster_pirate"]);
 	graphics[e]->sprites.push_back(&sprites["monster_pirate_thrusting"]);
@@ -147,11 +156,34 @@ void Scene::SpawnPirate(float x, float y)
 	ais[e]->minTargetDistance = 200.f;
 	healths[e]->hp = 25;
 	healths[e]->maxHp = 25;
+	weapons[e]->cooldown = 1.f;
+	weapons[e]->current_cooldown = 0.f;
 }
 
-
-void Scene::ShootProjectile(Entity& from)
+void Scene::FireWeapon(const Entity& e)
 {
+	weaponSystem.FireWeapon(e);
+}
+
+void Scene::SpawnProjectile(float x, float y, float yaw, float speed, int dmg, float ttl, const Entity& from)
+{
+	Entity e = NewEntity();
+	physics[e] = std::make_unique<PhysicComponent>();
+	graphics[e] = std::make_unique<GraphicComponent>();
+	projectiles[e] = std::make_unique<ProjectileComponent>();
+	graphics[e]->renderingType = GraphicComponent::RenderingType::RENDERING_STATIC;
+	graphics[e]->sprites.push_back(&sprites["laser_red"]);
+	physics[e]->pos.x = x;
+	physics[e]->pos.y = y;
+	physics[e]->yaw = yaw;
+	physics[e]->speed = speed;
+	projectiles[e]->damage = dmg;
+	projectiles[e]->origin = &from;
+}
+
+void Scene::KillEntity(const Entity& e)
+{
+	toDelete.push_back(e);
 }
 
 void Scene::Render(Camera& camera)
@@ -164,6 +196,7 @@ void Scene::Update(int dt)
 {
 	physicsSystem.Update(dt);
 	aiSystem.Update(dt);
+	weaponSystem.Update(dt);
 	for (auto e : ents) {
 		bool collides(false);
 		for (auto f : ents) {
@@ -177,11 +210,23 @@ void Scene::Update(int dt)
 						/* for debug purposes */
 						collides = true;
 						collectSystem.OnCollide(e, f);
+						projectileSystem.OnCollide(e, f);
 					}
 				}
 			}
 		}
 		physics[e]->isColliding = collides;
 	}
+	for (auto& e : toDelete) {
+		ents.erase(e);
+		physics[e] = nullptr;
+		graphics[e] = nullptr;
+		healths[e] = nullptr;
+		projectiles[e] = nullptr;
+		resources[e] = nullptr;
+		collectors[e] = nullptr;
+		weapons[e] = nullptr;
+	}
+	toDelete.clear();
 }
 

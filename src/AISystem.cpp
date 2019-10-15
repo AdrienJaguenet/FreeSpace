@@ -8,7 +8,7 @@ void AISystem::Update(int dt)
 	for (auto& e : sc.GetEntities()) {
 		if (sc.GetAIComponent(e)) {
 			auto& ai = *sc.GetAIComponent(e);
-			bool targeting = false;
+			bool goForward = false;
 			auto& pc_this = *sc.GetPhysicsComponent(e);
 			for (auto& f : sc.GetEntities()) {
 				if (e != f and sc.GetTeamComponent(f) and sc.GetTeamComponent(e) and sc.GetPhysicsComponent(e) and sc.GetPhysicsComponent(f)) {
@@ -21,18 +21,21 @@ void AISystem::Update(int dt)
 						if (sqdist <= ai.targetThreshold * ai.targetThreshold) {
 							float required_yaw = atan2f(-diffVec.x, diffVec.y);
 							if (sqdist > ai.minTargetDistance * ai.minTargetDistance) {
-								targeting = true;
+								goForward = true;
 							}
 							if (required_yaw > pc_this.yaw) {
 								pc_this.yaw = std::min(required_yaw + ai.yawChangingRate * dt_f, required_yaw);
 							} else if (required_yaw < pc_this.yaw) {
 								pc_this.yaw = std::max(required_yaw - ai.yawChangingRate * dt_f, required_yaw);
 							}
+							if (abs(required_yaw - pc_this.yaw < .5)) { /* when within half a radian of the target, fire */
+								sc.FireWeapon(e);
+							}
 						}
 					}
 				}
 			}
-			if (targeting) {
+			if (goForward) {
 				pc_this.speed = ai.runningSpeed;
 			} else {
 				pc_this.speed = 0.f;
