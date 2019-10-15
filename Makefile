@@ -1,5 +1,3 @@
-RM=rm
-
 CXX=g++
 CXXOPTIONS=--std=c++17 -g
 INCLUDEDIRS=
@@ -24,6 +22,7 @@ SRC=\
 	src/WeaponSystem.cpp\
 	src/ProjectileSystem.cpp
 OBJ=$(SRC:.cpp=.o)
+DEP=$(SRC:.cpp=.d)
 
 all: $(TARGET)
 
@@ -35,8 +34,6 @@ $(TARGET): $(OBJ)
 %.o: %.cpp
 	$(CXX) -c $(CXXOPTIONS) $(INCLUDEDIRS) $*.cpp -o $*.o
 	$(CXX) -MM $(CXXOPTIONS) $(INCLUDEDIRS) $*.cpp > $*.d
-
-
 
 .PHONY: clean
 
