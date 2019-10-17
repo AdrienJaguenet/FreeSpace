@@ -20,7 +20,7 @@ Socket::~Socket()
   }
 }
 
-Socket& Socket::operator>>(std::string& s)
+Socket& Socket::operator<<(const std::string& s)
 {
   int written = write(socket_d, s.c_str(), s.size());
   if (written < s.size()) {
@@ -29,7 +29,7 @@ Socket& Socket::operator>>(std::string& s)
   return *this;
 }
 
-Socket& Socket::operator<<(std::string& s)
+Socket& Socket::operator>>(std::string& s)
 {
   char buffer[4096];
   int bytes_read = read(socket_d, buffer, 4096);

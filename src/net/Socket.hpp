@@ -12,10 +12,10 @@ class Socket
 	~Socket();
 
 	/* read */
-	Socket& operator>>(std::string& s);
+	Socket& operator<<(const std::string& s);
 
 	/* write */
-	Socket& operator<<(std::string& s);
+	Socket& operator>>(std::string& s);
 
 	inline const int& GetSocketDescriptor() { return socket_d; }
 };

@@ -19,7 +19,11 @@ int main()
   ServerSocket s(10000);
   s.Listen();
   while (not closeServer) {
-	s.Accept();
+	std::cerr << "Accepting connections..." << std::endl;
+	std::unique_ptr<Socket> client = s.Accept();
+	if (client) {
+	  *client << "Hello";
+	}
   }
   return 0;
 }
