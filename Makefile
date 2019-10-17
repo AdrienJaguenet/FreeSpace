@@ -4,13 +4,14 @@ INCLUDEDIRS=
 
 LD=g++
 LDOPTIONS=
-LDLIBS=-lsfml-graphics -lsfml-window -lsfml-system
+CLIENT_LDLIBS=-lsfml-graphics -lsfml-window -lsfml-system
 
-TARGET=FreeSpace
-SRC=\
+CLIENT_TARGET=FreeSpace
+SERVER_TARGET=FreeSpace-server
+CLIENT_SRC=\
 	src/Scene.cpp\
 	src/Game.cpp\
-	src/Main.cpp\
+	src/Client.cpp\
 	src/Space.cpp\
 	src/SpaceInputManager.cpp\
 	src/Entity.cpp\
@@ -21,13 +22,23 @@ SRC=\
 	src/AISystem.cpp\
 	src/WeaponSystem.cpp\
 	src/ProjectileSystem.cpp
-OBJ=$(SRC:.cpp=.o)
-DEP=$(SRC:.cpp=.d)
+SERVER_SRC=\
+	src/Server.cpp\
+	src/net/Socket.cpp\
+	src/net/ServerSocket.cpp
 
-all: $(TARGET)
+CLIENT_OBJ=$(CLIENT_SRC:.cpp=.o)
+CLIENT_DEP=$(CLIENT_SRC:.cpp=.d)
+SERVER_OBJ=$(SERVER_SRC:.cpp=.o)
+SERVER_DEP=$(SERVER_SRC:.cpp=.d)
 
-$(TARGET): $(OBJ)
-	$(LD) $^ -o $@ $(LDOPTIONS) $(LDLIBS)
+all: $(CLIENT_TARGET) $(SERVER_TARGET)
+
+$(CLIENT_TARGET): $(CLIENT_OBJ)
+	$(LD) $^ -o $@ $(LDOPTIONS) $(CLIENT_LDLIBS)
+
+$(SERVER_TARGET): $(SERVER_OBJ)
+	$(LD) $^ -o $@ $(LDOPTIONS) $(SERVER_LDLIBS)
 
 -include $(OBJ:.o=.d)
 
