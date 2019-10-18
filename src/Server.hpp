@@ -12,11 +12,7 @@ class Server
   private:
 	int port;
 	ServerSocket socket;
-	std::mutex initMutex;
 	std::thread acceptThread;
-	std::condition_variable socketReady;
-	bool socketListening;
-	void Init();
   public:
 	Server(int port);
 
