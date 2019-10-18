@@ -4,7 +4,9 @@ INCLUDEDIRS=
 
 LD=g++
 LDOPTIONS=
-CLIENT_LDLIBS=-lsfml-graphics -lsfml-window -lsfml-system
+SHARED_LDLIBS=-lpthread
+CLIENT_LDLIBS=-lsfml-graphics -lsfml-window -lsfml-system $(SHARED_LDLIBS)
+SERVER_LDLIBS=$(SHARED_LDLIBS)
 
 CLIENT_TARGET=FreeSpace
 SERVER_TARGET=FreeSpace-server

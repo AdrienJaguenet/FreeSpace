@@ -40,8 +40,7 @@ std::unique_ptr<Socket> ServerSocket::Accept()
   timeout.tv_sec = 1;
 
   FD_SET(GetSocketDescriptor(), &read_set);
-  int n_ready(select(GetSocketDescriptor() + 1, &read_set, NULL, NULL, &timeout));
-  std::cerr << "n_ready = " << n_ready << std::endl;
+  select(GetSocketDescriptor() + 1, &read_set, NULL, NULL, &timeout);
   if (FD_ISSET(GetSocketDescriptor(), &read_set)) {
 	length = sizeof(client);
 	client_fd = accept(GetSocketDescriptor(), (struct sockaddr*) &client, &length);
