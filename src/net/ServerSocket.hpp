@@ -6,17 +6,20 @@
 
 class ServerSocket : public Socket
 {
-  private:
+private:
 	int port;
 	struct sockaddr_in servaddr;
 	int max_connections;
 	fd_set read_set;
 	struct timeval timeout;
-  public:
+public:
 	ServerSocket(int port);
 	void Listen();
 	std::unique_ptr<Socket> Accept();
 
-	inline void SetMaxConnections(int n) { max_connections = n; }
+	inline void SetMaxConnections(int n)
+	{
+		max_connections = n;
+	}
 };
 

@@ -4,9 +4,9 @@
 
 class Socket
 {
-  private:
+private:
 	int socket_d;
-  public:
+public:
 	Socket();
 	Socket(int fd) : socket_d(fd) {}
 	~Socket();
@@ -17,6 +17,9 @@ class Socket
 	/* write */
 	Socket& operator>>(std::string& s);
 
-	inline const int& GetSocketDescriptor() { return socket_d; }
+	inline const int& GetSocketDescriptor()
+	{
+		return socket_d;
+	}
 };
 

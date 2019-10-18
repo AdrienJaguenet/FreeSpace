@@ -1,16 +1,16 @@
 #pragma once
 
 #include "Camera.hpp"
-#include "Scene.hpp"
+#include "ClientScene.hpp"
 
 #include <SFML/Graphics.hpp>
 
-class Scene;
+class ClientScene;
 
 class Space
 {
 private:
-	Scene scene;
+	ClientScene scene;
 	int refreshPeriod = 25;
 	sf::RenderWindow& window;
 	Camera camera;
@@ -48,7 +48,7 @@ public:
 	{
 		return player;
 	}
-	Scene& GetScene()
+	ClientScene& GetScene()
 	{
 		return scene;
 	}

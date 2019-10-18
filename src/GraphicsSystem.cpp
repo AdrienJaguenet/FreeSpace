@@ -4,9 +4,9 @@
 #include <iostream>
 
 #include "Camera.hpp"
-#include "Scene.hpp"
+#include "ClientScene.hpp"
 
-void GraphicsSystem::Render(Camera& c, Scene& sc)
+void GraphicsSystem::Render(Camera& c, ClientScene& sc)
 {
 	sf::CircleShape collision_box;
 	collision_box.setOutlineColor(sf::Color::Green);

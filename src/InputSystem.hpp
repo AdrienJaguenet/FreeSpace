@@ -2,13 +2,13 @@
 
 #pragma once
 
-class Scene;
+class ClientScene;
 
 class InputSystem
 {
-	Scene& scene;
+	ClientScene& scene;
 public:
-	InputSystem(Scene& scene);
+	InputSystem(ClientScene& scene);
 	void StartThrusting();
 	void StopThrusting();
 	void StartBoost();

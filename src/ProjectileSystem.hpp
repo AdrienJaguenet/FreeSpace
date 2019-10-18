@@ -2,14 +2,14 @@
 
 #include "Entity.hpp"
 
-class Scene;
+class ServerScene;
 
 class ProjectileSystem
 {
 private:
-	Scene& sc;
+	ServerScene& sc;
 public:
-	ProjectileSystem(Scene& sc) : sc(sc) {}
+	ProjectileSystem(ServerScene& sc) : sc(sc) {}
 	void OnCollide(Entity& e, Entity&f);
 };
 

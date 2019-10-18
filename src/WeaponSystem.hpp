@@ -2,13 +2,13 @@
 
 #include "Entity.hpp"
 
-class Scene;
+class ServerScene;
 
 class WeaponSystem
 {
-	Scene& sc;
+	ServerScene& sc;
 public:
-	WeaponSystem(Scene& sc) : sc(sc) {}
+	WeaponSystem(ServerScene& sc) : sc(sc) {}
 	void Update(int dt);
 	void FireWeapon(const Entity& e);
 };

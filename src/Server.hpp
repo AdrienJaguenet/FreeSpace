@@ -9,11 +9,11 @@
 
 class Server
 {
-  private:
+private:
 	int port;
 	ServerSocket socket;
 	std::thread acceptThread;
-  public:
+public:
 	Server(int port);
 
 	void AcceptLoop();

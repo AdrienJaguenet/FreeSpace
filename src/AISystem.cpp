@@ -1,6 +1,6 @@
 #include "AISystem.hpp"
 
-#include "Scene.hpp"
+#include "ServerScene.hpp"
 
 void AISystem::Update(int dt)
 {

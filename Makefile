@@ -10,24 +10,30 @@ SERVER_LDLIBS=$(SHARED_LDLIBS)
 
 CLIENT_TARGET=FreeSpace
 SERVER_TARGET=FreeSpace-server
+
+COMMON_SRC=src/Scene.cpp\
+	src/PhysicsSystem.cpp
+
 CLIENT_SRC=\
-	src/Scene.cpp\
+	$(COMMON_SRC)\
+	src/Space.cpp\
 	src/Game.cpp\
 	src/Client.cpp\
-	src/Space.cpp\
 	src/SpaceInputManager.cpp\
-	src/Entity.cpp\
 	src/GraphicsSystem.cpp\
-	src/PhysicsSystem.cpp\
 	src/InputSystem.cpp\
-	src/ResourceCollectSystem.cpp\
-	src/AISystem.cpp\
-	src/WeaponSystem.cpp\
-	src/ProjectileSystem.cpp
+	src/ClientScene.cpp
+
 SERVER_SRC=\
+	$(COMMON_SRC)\
 	src/Server.cpp\
 	src/net/Socket.cpp\
-	src/net/ServerSocket.cpp
+	src/net/ServerSocket.cpp\
+	src/ServerScene.cpp\
+	src/AISystem.cpp\
+	src/ResourceCollectSystem.cpp\
+	src/WeaponSystem.cpp\
+	src/ProjectileSystem.cpp\
 
 CLIENT_OBJ=$(CLIENT_SRC:.cpp=.o)
 CLIENT_DEP=$(CLIENT_SRC:.cpp=.d)

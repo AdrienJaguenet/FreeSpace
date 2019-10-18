@@ -1,6 +1,6 @@
 #include "ProjectileSystem.hpp"
 
-#include "Scene.hpp"
+#include "ServerScene.hpp"
 
 #include <iostream>
 

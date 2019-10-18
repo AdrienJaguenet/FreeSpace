@@ -1,14 +1,14 @@
 #pragma once
 
 class Camera;
-class Scene;
+class ClientScene;
 
 class GraphicsSystem
 {
 private:
 	bool debug;
 public:
-	void Render(Camera& c, Scene& sc);
+	void Render(Camera& c, ClientScene& sc);
 
 	void ToggleDebug(bool v)
 	{

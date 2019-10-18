@@ -47,9 +47,6 @@ Space::Space(sf::RenderWindow& window) :
 
 void Space::Update(int dt)
 {
-	if (scene.GetEntities().find(player) == scene.GetEntities().end()) {
-		player = scene.SpawnPlayer();
-	}
 	scene.Update(dt);
 }
 
@@ -69,18 +66,23 @@ void Space::Render()
 void Space::RenderMinimap()
 {
 	static int minimapSize(200);
-	int playerX = clamp(0.f, scene.GetPhysicsComponent(player)->pos.x * (float) minimapSize / 3000.f, (float) minimapSize),
-	    playerY = clamp(0.f, scene.GetPhysicsComponent(player)->pos.y * (float) minimapSize / 3000.f, (float) minimapSize);
 	minimapRectangle.setSize(sf::Vector2f(minimapSize, minimapSize));
 	minimapRectangle.setPosition(window.getSize().x - minimapSize - 20, window.getSize().y - minimapSize - 20);
-	playerMiniature.setPosition(sf::Vector2f(window.getSize().x - minimapSize - 20 + playerX, window.getSize().y - minimapSize - 20 + playerY));
-	playerMiniature.setRotation(scene.GetPhysicsComponent(player)->yaw * 180.f / M_PI);
 	window.draw(minimapRectangle);
-	window.draw(playerMiniature);
+	if (scene.GetEntities().find(player) != scene.GetEntities().end()) {
+	  int playerX = clamp(0.f, scene.GetPhysicsComponent(player)->pos.x * (float) minimapSize / 3000.f, (float) minimapSize),
+		  playerY = clamp(0.f, scene.GetPhysicsComponent(player)->pos.y * (float) minimapSize / 3000.f, (float) minimapSize);
+	  playerMiniature.setPosition(sf::Vector2f(window.getSize().x - minimapSize - 20 + playerX, window.getSize().y - minimapSize - 20 + playerY));
+	  playerMiniature.setRotation(scene.GetPhysicsComponent(player)->yaw * 180.f / M_PI);
+	  window.draw(playerMiniature);
+	}
 }
 
 void Space::RenderHealthBar()
 {
+	if (scene.GetEntities().find(player) == scene.GetEntities().end()) {
+	  return;
+	}
 	static int healthBarSize(300), healthBarHeight(25);
 	healthRectangle.setPosition(sf::Vector2f(200, window.getSize().y - 50));
 	float playerHealthProportion = (float) scene.GetHealthComponent(player)->hp / (float) scene.GetHealthComponent(player)->maxHp;
@@ -94,6 +96,9 @@ void Space::RenderHealthBar()
 
 void Space::RenderHUD()
 {
+	if (scene.GetEntities().find(player) == scene.GetEntities().end()) {
+	  return;
+	}
 	resourceHudDisplay.setPosition(sf::Vector2f(20, window.getSize().y - 114));
 	orangiumIcon.setPosition(sf::Vector2f(29, window.getSize().y - 105));
 	hudText.setString(std::to_string(scene.GetResourceCollectorComponent(player)->reserves["orangium"]));
@@ -114,11 +119,5 @@ void Space::RenderHUD()
 
 void Space::Load()
 {
-	player = scene.SpawnPlayer();
-	for (int i(0); i < 5; ++i) {
-		scene.SpawnOrangium(rand() % 3000, rand() % 3000);
-		scene.SpawnGreenine(rand() % 3000, rand() % 3000);
-		scene.SpawnPirate(rand() % 3000, rand() % 3000);
-	}
 }
 

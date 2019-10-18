@@ -1,13 +1,13 @@
 #pragma once
 
-class Scene;
+class ServerScene;
 
 class AISystem
 {
 private:
-	Scene& sc;
+	ServerScene& sc;
 public:
-	AISystem(Scene& sc) : sc(sc) {}
+	AISystem(ServerScene& sc) : sc(sc) {}
 	void Update(int dt);
 };
 

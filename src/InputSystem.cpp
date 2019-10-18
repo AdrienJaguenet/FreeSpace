@@ -1,8 +1,8 @@
 #include "InputSystem.hpp"
 
-#include "Scene.hpp"
+#include "ClientScene.hpp"
 
-InputSystem::InputSystem(Scene& scene) :
+InputSystem::InputSystem(ClientScene& scene) :
 	scene(scene)
 {
 
