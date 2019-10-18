@@ -2,6 +2,7 @@
 
 #include "Camera.hpp"
 #include "ClientScene.hpp"
+#include "net/ClientSocket.hpp"
 
 #include <SFML/Graphics.hpp>
 
@@ -31,6 +32,7 @@ private:
 	void RenderHUD();
 	void RenderMinimap();
 	void RenderHealthBar();
+	ClientSocket clientSocket;
 public:
 	Space(sf::RenderWindow& window);
 	int GetRefreshPeriod()

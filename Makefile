@@ -12,6 +12,7 @@ CLIENT_TARGET=FreeSpace
 SERVER_TARGET=FreeSpace-server
 
 COMMON_SRC=src/Scene.cpp\
+	src/net/Socket.cpp\
 	src/PhysicsSystem.cpp
 
 CLIENT_SRC=\
@@ -22,12 +23,12 @@ CLIENT_SRC=\
 	src/SpaceInputManager.cpp\
 	src/GraphicsSystem.cpp\
 	src/InputSystem.cpp\
-	src/ClientScene.cpp
+	src/ClientScene.cpp\
+	src/net/ClientSocket.cpp
 
 SERVER_SRC=\
 	$(COMMON_SRC)\
 	src/Server.cpp\
-	src/net/Socket.cpp\
 	src/net/ServerSocket.cpp\
 	src/ServerScene.cpp\
 	src/AISystem.cpp\

@@ -17,7 +17,8 @@ Space::Space(sf::RenderWindow& window) :
 	scene(window),
 	window(window),
 	resourceHudDisplay(sf::Vector2f(50, 50)),
-	healthRectangle(sf::Vector2f(25, 200))
+	healthRectangle(sf::Vector2f(25, 200)),
+	clientSocket("127.0.0.1", 10000)
 {
 	hudFont.loadFromFile("res/pixelplay.ttf");
 	hudText.setFont(hudFont);
@@ -70,18 +71,18 @@ void Space::RenderMinimap()
 	minimapRectangle.setPosition(window.getSize().x - minimapSize - 20, window.getSize().y - minimapSize - 20);
 	window.draw(minimapRectangle);
 	if (scene.GetEntities().find(player) != scene.GetEntities().end()) {
-	  int playerX = clamp(0.f, scene.GetPhysicsComponent(player)->pos.x * (float) minimapSize / 3000.f, (float) minimapSize),
-		  playerY = clamp(0.f, scene.GetPhysicsComponent(player)->pos.y * (float) minimapSize / 3000.f, (float) minimapSize);
-	  playerMiniature.setPosition(sf::Vector2f(window.getSize().x - minimapSize - 20 + playerX, window.getSize().y - minimapSize - 20 + playerY));
-	  playerMiniature.setRotation(scene.GetPhysicsComponent(player)->yaw * 180.f / M_PI);
-	  window.draw(playerMiniature);
+		int playerX = clamp(0.f, scene.GetPhysicsComponent(player)->pos.x * (float) minimapSize / 3000.f, (float) minimapSize),
+		    playerY = clamp(0.f, scene.GetPhysicsComponent(player)->pos.y * (float) minimapSize / 3000.f, (float) minimapSize);
+		playerMiniature.setPosition(sf::Vector2f(window.getSize().x - minimapSize - 20 + playerX, window.getSize().y - minimapSize - 20 + playerY));
+		playerMiniature.setRotation(scene.GetPhysicsComponent(player)->yaw * 180.f / M_PI);
+		window.draw(playerMiniature);
 	}
 }
 
 void Space::RenderHealthBar()
 {
 	if (scene.GetEntities().find(player) == scene.GetEntities().end()) {
-	  return;
+		return;
 	}
 	static int healthBarSize(300), healthBarHeight(25);
 	healthRectangle.setPosition(sf::Vector2f(200, window.getSize().y - 50));
@@ -97,7 +98,7 @@ void Space::RenderHealthBar()
 void Space::RenderHUD()
 {
 	if (scene.GetEntities().find(player) == scene.GetEntities().end()) {
-	  return;
+		return;
 	}
 	resourceHudDisplay.setPosition(sf::Vector2f(20, window.getSize().y - 114));
 	orangiumIcon.setPosition(sf::Vector2f(29, window.getSize().y - 105));
