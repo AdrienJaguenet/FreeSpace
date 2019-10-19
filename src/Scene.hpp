@@ -15,6 +15,7 @@
 
 #include <memory>
 #include <set>
+#include <vector>
 
 class Scene
 {

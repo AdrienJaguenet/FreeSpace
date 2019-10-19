@@ -2,6 +2,8 @@
 
 #include "ServerScene.hpp"
 
+#include <math.h>
+
 void AISystem::Update(int dt)
 {
 	float dt_f = dt / 1000.f;
