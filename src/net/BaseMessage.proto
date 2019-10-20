@@ -1,5 +1,12 @@
 syntax = "proto2";
 
+//Speed > Code size. May need to change to Lite if we go for phones
+option optimize_for = SPEED;
+//We dont need services, this isnt an RPC library
+option cc_generic_services = false;
+
+//Need to split this into 2 schemas (client-server) at least
+
 message Base {
   enum MessageType {
 	Hello = 1;
@@ -8,3 +15,35 @@ message Base {
   bytes msg;
 }
 
+//We probably need to send server->client frequently/every update:
+//-EntityID
+//-Health components
+//-Movement status (decouple from input?)
+//-Physics components + Colliders (server-side collisions?)
+//-Projectiles
+//-Resource site updates
+//-Effects if implemented (cooldown, thrust trails+thrusting status, etc)
+
+//We need to handle server->client updates of:
+//-Team switching
+//-Graphics (probably just send a resource ID)
+//-Damage (to others? to current player?)
+//-Ship parts changing (retrofit, etc)
+
+//We may want to handle server->client updates of:
+//-Out-of-res sf::Images (player-made emblems, etc). Can be gzipped from uint8 to repeated bytes or string 
+
+//message QuitEvent
+//message Ping
+//message Pong
+//message PlayerChatMessage
+//message PlayerPrivateMessage
+
+message UpdatedEntity {
+	//What should be updated per entity
+	optional int32 entityID = 1;
+}
+
+message UpdatedEntityList {
+	repeated UpdatedEntity = 1;
+}
