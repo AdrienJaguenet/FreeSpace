@@ -17,12 +17,54 @@ message Base {
 
 //We probably need to send server->client frequently/every update:
 //-EntityID
-//-Health components
 //-Movement status (decouple from input?)
 //-Physics components + Colliders (server-side collisions?)
+message PhysicsComponentUpdate {	//Will probably need optimization
+	float yaw = 1;
+	float radius = 2;
+	float speed = 3;
+	bool isColliding = 4;
+	float velX = 5;
+	float velY = 6;
+	float posX = 7;
+	float posY = 8;
+}
+
 //-Projectiles
+message ProjectileComponentUpdate {
+	//Possible optimization: We can have an enum determining if an entity is a projectile or not. 
+	//Else we just check if this optional message field is set
+	optional int32 damage = 1;
+	optional int32 originEntity = 2;
+}
 //-Resource site updates
+message ResourceTypeUpdate {		//Meh name
+	optional string resourceType = 1; 	//SHOULD BE AN ENUM
+	optional int32 resourceStrength = 2;
+}
+message ResourceComponentUpdate {
+	repeated message ResourceTypeUpdate = 1;
+}
+
+//-Health components
+message HealthComponentUpdate {
+	optional int32 hp = 1;
+	optional int32 maxHp = 2;
+}
 //-Effects if implemented (cooldown, thrust trails+thrusting status, etc)
+
+message UpdatedEntity {
+	//What should be updated per entity
+	optional int32 entityID = 1;
+	optional message HealthComponentUpdate = 2;
+	optional message PhysicsComponentUpdate = 3;
+	optional message ResourceComponentUpdate = 16;
+	optional message ProjectileComponentUpdate = 17;
+}
+
+message UpdatedEntityList {
+	repeated UpdatedEntity = 1;
+}
 
 //We need to handle server->client updates of:
 //-Team switching
@@ -38,12 +80,3 @@ message Base {
 //message Pong
 //message PlayerChatMessage
 //message PlayerPrivateMessage
-
-message UpdatedEntity {
-	//What should be updated per entity
-	optional int32 entityID = 1;
-}
-
-message UpdatedEntityList {
-	repeated UpdatedEntity = 1;
-}
