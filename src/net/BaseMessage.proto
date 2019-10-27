@@ -6,13 +6,15 @@ option optimize_for = SPEED;
 option cc_generic_services = false;
 
 //Need to split this into 2 schemas (client-server) at least
+enum MessageType {
+  Hello = 1;
+  Disconnect = 2;
+  UpdateEntity = 3;
+};
 
 message Base {
-  enum MessageType {
-	Hello = 1;
-	Disconnect = 2;
-  }
-  bytes msg;
+  optional MessageType messageType = 1;
+  optional bytes msg = 2;
 }
 
 //We probably need to send server->client frequently/every update:
@@ -20,14 +22,14 @@ message Base {
 //-Movement status (decouple from input?)
 //-Physics components + Colliders (server-side collisions?)
 message PhysicsComponentUpdate {	//Will probably need optimization
-	float yaw = 1;
-	float radius = 2;
-	float speed = 3;
-	bool isColliding = 4;
-	float velX = 5;
-	float velY = 6;
-	float posX = 7;
-	float posY = 8;
+	optional float yaw = 1;
+	optional float radius = 2;
+	optional float speed = 3;
+	optional bool isColliding = 4;
+	optional float velX = 5;
+	optional float velY = 6;
+	optional float posX = 7;
+	optional float posY = 8;
 }
 
 //-Projectiles
@@ -43,7 +45,7 @@ message ResourceTypeUpdate {		//Meh name
 	optional int32 resourceStrength = 2;
 }
 message ResourceComponentUpdate {
-	repeated message ResourceTypeUpdate = 1;
+	repeated ResourceTypeUpdate resourceType = 1;
 }
 
 //-Health components
@@ -55,15 +57,20 @@ message HealthComponentUpdate {
 
 message UpdatedEntity {
 	//What should be updated per entity
+	enum UpdateType {
+	  CREATE = 1;
+	  UPDATE = 2;
+	  DELETE = 3;
+	}
 	optional int32 entityID = 1;
-	optional message HealthComponentUpdate = 2;
-	optional message PhysicsComponentUpdate = 3;
-	optional message ResourceComponentUpdate = 16;
-	optional message ProjectileComponentUpdate = 17;
+	optional HealthComponentUpdate health = 2;
+	optional PhysicsComponentUpdate physics = 3;
+	optional ResourceComponentUpdate resource = 16;
+	optional ProjectileComponentUpdate projectile = 17;
 }
 
 message UpdatedEntityList {
-	repeated UpdatedEntity = 1;
+	repeated UpdatedEntity entities = 1;
 }
 
 //We need to handle server->client updates of:
