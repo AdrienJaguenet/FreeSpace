@@ -31,7 +31,9 @@ CLIENT_SRC=\
 	src/GraphicsSystem.cpp\
 	src/InputSystem.cpp\
 	src/ClientScene.cpp\
-	src/net/ClientSocket.cpp
+	src/net/ClientSocket.cpp\
+	src/Menu.cpp\
+	src/MenuInputManager.cpp\
 
 SERVER_SRC=\
 	$(COMMON_SRC)\

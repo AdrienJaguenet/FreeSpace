@@ -8,6 +8,7 @@
 #include "InputManager.hpp"
 #include "Space.hpp"
 #include "SpaceInputManager.hpp"
+#include "MenuInputManager.hpp"
 
 class Game
 {
@@ -29,6 +30,8 @@ private:
 	sf::Clock clock;
 	unsigned int delta_tick;
 	Space space;
+	Menu menu;
 	InputManager* input_manager;
 	SpaceInputManager space_input_manager;
+	MenuInputManager menu_input_manager;
 };

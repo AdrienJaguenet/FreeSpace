@@ -8,15 +8,17 @@
 
 Game::Game(std::vector<std::string>& args) :
 	space_input_manager(space),
-	input_manager(&space_input_manager),
+	menu_input_manager(menu),
+	input_manager(&menu_input_manager),
 	window(sf::VideoMode(1000, 800), "FreeSpace"),
-	space(window)
+	space(window),
+	menu(window)
 {
 	srand(time(NULL));
 
 	space.Load();
 
-	this->state = GAME_STATE_RUNNING;
+	this->state = GAME_STATE_MENU;
 }
 
 void Game::ProcessEvent(sf::Event &e)
@@ -41,12 +43,18 @@ void Game::ProcessEvent(sf::Event &e)
 
 void Game::Update(int dt)
 {
-	space.Update(dt);
+	if (state == GAME_STATE_RUNNING)
+		space.Update(dt);
+	else if (state == GAME_STATE_MENU)
+		menu.Update(dt);
 }
 
 void Game::Render()
 {
-	space.Render();
+	if (state == GAME_STATE_RUNNING)
+		space.Render();
+	else if (state == GAME_STATE_MENU)
+		menu.Render();
 	window.display();
 }
 
